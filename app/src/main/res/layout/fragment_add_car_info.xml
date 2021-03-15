@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:hint="Марка машины">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/car_brand_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -26,9 +28,9 @@
         android:hint="Модель машины">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/car_model_field"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,9 +41,9 @@
         android:hint="Год машины">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/car_year_field"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,9 +54,9 @@
         android:hint="Пробег машины">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/car_odometer_field"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,9 +67,9 @@
         android:hint="Объём двигателя">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/car_engine_amount_field"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,10 +81,16 @@
         android:hint="Смешанный расход авто">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/car_rate_field"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/go_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Далее" />
 
 </LinearLayout>

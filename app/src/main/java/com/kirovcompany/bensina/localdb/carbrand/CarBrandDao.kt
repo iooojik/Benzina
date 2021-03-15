@@ -23,4 +23,7 @@ interface CarBrandDao {
      */
     @Query("SELECT * FROM carbrandmodel WHERE _id = :id")
     fun getByID(id : String) : CarBrandModel
+
+    @Query("SELECT * FROM carbrandmodel")
+    fun getAll() : List<CarBrandModel>
 }
