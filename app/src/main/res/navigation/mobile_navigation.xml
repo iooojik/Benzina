@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_beginRoute">
+
+
+    <fragment
+        android:id="@+id/navigation_addCarInfo"
+        android:name="com.kirovcompany.bensina.ui.AddCarInfo"
+        android:label="fragment_add_car_info"
+        tools:layout="@layout/fragment_add_car_info" >
+        <action
+            android:id="@+id/action_addCarInfo_to_beginRoute"
+            app:destination="@id/navigation_beginRoute" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_beginRoute"
+        android:name="com.kirovcompany.bensina.ui.BeginRoute"
+        android:label="fragment_begin_route"
+        tools:layout="@layout/fragment_begin_route" >
+        <action
+            android:id="@+id/action_beginRoute_to_routeProcess"
+            app:destination="@id/navigation_routeProcess" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_routeProcess"
+        android:name="com.kirovcompany.bensina.ui.RouteProcess"
+        android:label="fragment_route_process"
+        tools:layout="@layout/fragment_route_process" />
+</navigation>
