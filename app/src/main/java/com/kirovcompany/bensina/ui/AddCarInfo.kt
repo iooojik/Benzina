@@ -25,9 +25,8 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
     lateinit var carOdometerField : EditText
     lateinit var carEngineAmountField : EditText
     lateinit var carRateField : EditText
-    lateinit var goNext : Button
     lateinit var preferences: SharedPreferences
-    val staticVars = StaticVars()
+    private val staticVars = StaticVars()
 
 
     override fun onCreateView(
@@ -46,8 +45,7 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
         carOdometerField = rootView.findViewById(R.id.car_odometer_field)
         carEngineAmountField = rootView.findViewById(R.id.car_engine_amount_field)
         carRateField = rootView.findViewById(R.id.car_rate_field)
-        goNext = rootView.findViewById(R.id.go_next)
-        goNext.setOnClickListener(this)
+        rootView.findViewById<Button>(R.id.go_next).setOnClickListener(this)
 
         preferences = getSharedPreferences(requireActivity())
 
@@ -79,7 +77,7 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
     private fun saveCarInfo() {
         //если нет пустых полей, то сохраняем информацию и переходим на следующее окно
         //иначе выводим уведомление
-        if (!emptyFields()){
+        //TODO if (!emptyFields()){
             val carBrand = carBrandField.text.toString()
             val carModel = carModelField.text.toString()
             val carYear = carYearField.text.toString()
@@ -90,11 +88,11 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
             requireActivity().runOnUiThread {
                 requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
             }
-        } else {
-            requireActivity().runOnUiThread {
-                Snackbar.make(rootView, "Не все поля заполнены", Snackbar.LENGTH_LONG).show()
-            }
-        }
+        //} else {
+        //    requireActivity().runOnUiThread {
+        //        Snackbar.make(rootView, "Не все поля заполнены", Snackbar.LENGTH_LONG).show()
+        //    }
+       // }
 
     }
 
@@ -106,10 +104,16 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
         saveStringToPrefs(staticVars.carOdometer, carOdometer)
         saveStringToPrefs(staticVars.carEngineAmount, carEngineAmount)
         saveStringToPrefs(staticVars.carRate, carRate)
+
+        saveBooleanToPrefs(staticVars.userAddedCar, true)
     }
 
     private fun saveStringToPrefs(key : String, value : String){
         saveStringToSharedPreferences(preferences, key, value)
+    }
+
+    private fun saveBooleanToPrefs(key : String, value : Boolean){
+        saveBooleanToSharedPreferences(preferences, key, value)
     }
 
     private fun emptyFields() : Boolean{

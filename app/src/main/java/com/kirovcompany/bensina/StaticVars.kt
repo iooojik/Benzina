@@ -9,4 +9,5 @@ class StaticVars {
     val carOdometer = "CAR ODOMETER"
     val carEngineAmount = "CAR ENGINE AMOUNT"
     val carRate = "CAR RATE"
+    val locationServiceState = "LOCATION SERVICE STATUS"
 }

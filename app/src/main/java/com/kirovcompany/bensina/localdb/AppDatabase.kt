@@ -7,11 +7,17 @@ import androidx.room.RoomDatabase
 import com.fstyle.library.helper.AssetSQLiteOpenHelperFactory
 import com.kirovcompany.bensina.localdb.carbrand.CarBrandDao
 import com.kirovcompany.bensina.localdb.carbrand.CarBrandModel
+import com.kirovcompany.bensina.localdb.routeprogress.RouteProgressDao
+import com.kirovcompany.bensina.localdb.routeprogress.RouteProgressModel
+import com.kirovcompany.bensina.localdb.service.ServiceDao
+import com.kirovcompany.bensina.localdb.service.ServiceModel
 
-@Database(entities = [CarBrandModel::class], version = 1)
+@Database(entities = [CarBrandModel::class, ServiceModel::class, RouteProgressModel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun carBrandDao() : CarBrandDao
+    abstract fun serviceDao() : ServiceDao
+    abstract fun routeProgressDao() : RouteProgressDao
 
     companion object {
         var INSTANCE: AppDatabase? = null
