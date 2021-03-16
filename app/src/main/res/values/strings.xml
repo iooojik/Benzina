@@ -9,4 +9,6 @@
     <string name="car_engine">Объём двигателя</string>
     <string name="car_rate">Смешанный расход авто</string>
     <string name="next">Далее</string>
+    <string name="add_fuel">Заправить</string>
+    <string name="add">Добавить</string>
 </resources>

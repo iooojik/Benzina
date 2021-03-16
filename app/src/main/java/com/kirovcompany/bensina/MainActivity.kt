@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.interfaces.PreferencesUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
+import com.kirovcompany.bensina.ui.BottomSheetPetrol
 
 
 @Suppress("DEPRECATION", "SENSELESS_COMPARISON")
@@ -59,5 +61,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil{
             R.layout.fragment_begin_route
         else R.layout.fragment_add_car_info
     }
+
+
 
 }

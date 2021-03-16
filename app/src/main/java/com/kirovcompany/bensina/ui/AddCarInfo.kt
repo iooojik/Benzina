@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentUtil
@@ -47,7 +48,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         carEngineAmountField = rootView.findViewById(R.id.car_engine_amount_field)
         carRateField = rootView.findViewById(R.id.car_rate_field)
         rootView.findViewById<Button>(R.id.go_next).setOnClickListener(this)
-
+        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).hide()
         preferences = getSharedPreferences(requireActivity())
 
         database = getAppDatabase(requireContext())

@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentUtil
@@ -78,6 +79,8 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener {
         timerTextView = rootView.findViewById(R.id.timer_text_view)
         rootView.findViewById<Button>(R.id.stop_button).setOnClickListener(this)
         mService = Intent(requireContext(), LocationService::class.java)
+        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).show()
+        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity())
 
         val m = database.timerDao().get()
         m.seconds = 0

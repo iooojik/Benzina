@@ -9,6 +9,8 @@ import com.kirovcompany.bensina.localdb.car.CarModel
 import com.kirovcompany.bensina.localdb.car.CarModelDao
 import com.kirovcompany.bensina.localdb.carbrand.CarBrandDao
 import com.kirovcompany.bensina.localdb.carbrand.CarBrandModel
+import com.kirovcompany.bensina.localdb.petrol.PetrolDao
+import com.kirovcompany.bensina.localdb.petrol.PetrolModel
 import com.kirovcompany.bensina.localdb.routeprogress.RouteProgressDao
 import com.kirovcompany.bensina.localdb.routeprogress.RouteProgressModel
 import com.kirovcompany.bensina.localdb.service.ServiceDao
@@ -17,7 +19,8 @@ import com.kirovcompany.bensina.localdb.timer.TimerDao
 import com.kirovcompany.bensina.localdb.timer.TimerModel
 
 @Database(entities = [CarBrandModel::class, ServiceModel::class,
-    RouteProgressModel::class, CarModel::class, TimerModel::class], version = 1)
+    RouteProgressModel::class, CarModel::class, TimerModel::class, PetrolModel::class],
+    version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun carBrandDao() : CarBrandDao
@@ -25,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun routeProgressDao() : RouteProgressDao
     abstract fun carModelDao() : CarModelDao
     abstract fun timerDao() : TimerDao
+    abstract fun petrolDao() : PetrolDao
 
     companion object {
         var INSTANCE: AppDatabase? = null

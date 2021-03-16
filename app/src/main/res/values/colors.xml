@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#2a2d43</color>
     <color name="colorSecondary">#33333d</color>
     <color name="colorAccent">#33333d</color>
+    <color name="colorWhite">#fff</color>
 
     <color name="colorPetrol">#169873</color>
     <color name="colorSpeed">#c60319</color>

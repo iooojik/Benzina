@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 
@@ -30,6 +31,8 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
 
     override fun initViews() {
         rootView.findViewById<Button>(R.id.begin_route_button).setOnClickListener(this)
+        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).show()
+        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity())
     }
 
     override fun onClick(v: View?) {
