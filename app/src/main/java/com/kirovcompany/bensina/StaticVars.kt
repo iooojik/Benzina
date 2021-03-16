@@ -10,4 +10,5 @@ class StaticVars {
     val carEngineAmount = "CAR ENGINE AMOUNT"
     val carRate = "CAR RATE"
     val locationServiceState = "LOCATION SERVICE STATUS"
+    val locationDelay = 3000.toLong()
 }

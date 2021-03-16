@@ -14,4 +14,7 @@ interface RouteProgressDao {
     @Query("SELECT * FROM routeprogressmodel")
     fun getAll() : List<RouteProgressModel>
 
+    @Query("SELECT * FROM routeprogressmodel ORDER BY _id DESC LIMIT 1")
+    fun getLast() : RouteProgressModel
+
 }

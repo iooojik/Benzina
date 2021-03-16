@@ -11,5 +11,8 @@ class RouteProgressModel(
     val id : Long? = null,
 
     @ColumnInfo(name = "speed")
-    var speed : String? = null
+    var speed : String? = null,
+
+    @ColumnInfo(name = "distance")
+    var distance : String? = null
 )
