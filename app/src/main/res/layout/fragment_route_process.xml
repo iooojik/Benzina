@@ -24,4 +24,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="distance" />
+
+    <TextView
+        android:id="@+id/timer_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="timer" />
+
+    <Button
+        android:id="@+id/stop_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="stop" />
+
+
 </LinearLayout>

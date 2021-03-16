@@ -27,7 +27,7 @@ class MyLocationListener : LocationListener {
 
         // это нужно запустить в самом начале работы программы
         @SuppressLint("MissingPermission")
-        fun SetUpLocationListener(context: Context){
+        fun setUpLocationListener(context: Context){
             val locationManager =
                 context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val locationListener: LocationListener = MyLocationListener()

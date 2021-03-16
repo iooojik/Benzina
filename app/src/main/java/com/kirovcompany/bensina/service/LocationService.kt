@@ -9,15 +9,18 @@ import android.util.Log
 import android.widget.Toast
 import com.kirovcompany.bensina.MyLocationListener
 import com.kirovcompany.bensina.StaticVars
-import com.kirovcompany.bensina.interfaces.FragmentInit
+import com.kirovcompany.bensina.interfaces.FragmentUtil
+import com.kirovcompany.bensina.interfaces.ServiceUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.routeprogress.RouteProgressModel
 import java.lang.Exception
+import kotlin.concurrent.thread
 
 @Suppress("DEPRECATION")
-class LocationService : Service(), FragmentInit {
+class LocationService : Service(), ServiceUtil {
 
     private val handler = Handler()
+    private val timer = Handler()
     private lateinit var database : AppDatabase
     private var running = false
     private val staticVars = StaticVars()
@@ -32,6 +35,7 @@ class LocationService : Service(), FragmentInit {
         database = getAppDatabase(applicationContext)
         running = database.serviceDao().get().status!!
         try {
+            setTimer()
             setLocationListener()
         } catch (e: InterruptedException) {
             e.printStackTrace()
@@ -40,27 +44,32 @@ class LocationService : Service(), FragmentInit {
 
     private fun setLocationListener() {
 
-        MyLocationListener.SetUpLocationListener(applicationContext)
+        MyLocationListener.setUpLocationListener(applicationContext)
 
         handler.post(object : Runnable {
             override fun run() {
+                running = database.serviceDao().get().status!!
+
                 if (running) {
                     //сохранение скорости пользователя
                     try {
                         Toast.makeText(applicationContext, MyLocationListener.imHere?.speed.toString(), Toast.LENGTH_SHORT).show()
-                        val routeProgressModel : RouteProgressModel?
 
-                        val distance = MyLocationListener.imHere?.let { prevLocation?.let { it1 ->
+                        //подсчёт дистанции от предыдущей точки
+                        var distance = MyLocationListener.imHere?.let { prevLocation?.let { it1 ->
                             calcDistance(it,
                                 it1
-                            ).toString()
+                            )
                         } }
+                        //если она null, то дистанция = 0
+                        if (distance == null) distance = 0f
 
+                        //получение скорости движения
                         val speed = MyLocationListener.imHere?.speed.toString()
 
-                        //todo и добавить подсчёт расхода топлива
+                        //подсчёт расхода топлива
                         val carRate = database.carModelDao().getLast().carRate?.let {
-                            calcCarRate(speed.toDouble(), it.toDouble())
+                            (calcCarRate(speed.toDouble(), it.toDouble()) * distance) / 100f
                         }
 
                         database
@@ -69,7 +78,7 @@ class LocationService : Service(), FragmentInit {
                                 RouteProgressModel(
                                     null,
                                     speed,
-                                    distance,
+                                    distance.toString(),
                                     carRate.toString()
                                 )
                             )
@@ -85,7 +94,22 @@ class LocationService : Service(), FragmentInit {
 
     }
 
-    private fun calcCarRate(speed : Double, rate : Double): Any {
+    private fun setTimer(){
+        //таймер с записью в бд
+        timer.post(object : Runnable {
+            override fun run() {
+                if (running){
+                    val timerModel = database.timerDao().get()
+                    timerModel.seconds = timerModel.seconds?.plus(1)
+                    database.timerDao().update(timerModel)
+                    handler.postDelayed(this, 1000)
+                }
+            }
+        })
+    }
+
+    private fun calcCarRate(speed : Double, rate : Double): Double {
+        //подсчёт расхода топлива
         var b = (speed*rate)/100
         b += getAdditionalRate(b)
         return b
@@ -104,13 +128,8 @@ class LocationService : Service(), FragmentInit {
     }
 
     private fun calcDistance(currLocation : Location, prevLocation : Location): Float {
+        //подсчёт пройденной дистанции
         return prevLocation.distanceTo(currLocation)
-    }
-
-
-
-    override fun initViews() {
-
     }
 
 }

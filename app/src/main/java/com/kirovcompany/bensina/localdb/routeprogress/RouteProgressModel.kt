@@ -14,7 +14,7 @@ class RouteProgressModel(
     var speed : String? = null,
 
     @ColumnInfo(name = "distance")
-    var distance : String? = null,
+    var distance : String,
 
     @ColumnInfo(name = "car_rate")
     var carRate : String? = null

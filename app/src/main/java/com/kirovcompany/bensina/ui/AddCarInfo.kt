@@ -8,15 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
-import com.kirovcompany.bensina.interfaces.FragmentInit
+import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.car.CarModel
+import com.kirovcompany.bensina.localdb.timer.TimerModel
 import kotlin.concurrent.thread
 
-class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
+class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
 
     lateinit var database : AppDatabase
     lateinit var rootView : View
@@ -110,6 +110,7 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
         )
         database.carModelDao().deleteAll()
         database.carModelDao().insert(carModelObj)
+        database.timerDao().insert(TimerModel(null, 0))
         saveBooleanToPrefs(staticVars.userAddedCar, true)
     }
 

@@ -1,17 +1,16 @@
 package com.kirovcompany.bensina
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kirovcompany.bensina.interfaces.PreferencesUtil
+import com.kirovcompany.bensina.localdb.AppDatabase
 
-@Suppress("DEPRECATION")
+
+@Suppress("DEPRECATION", "SENSELESS_COMPARISON")
 class MainActivity : AppCompatActivity(), PreferencesUtil{
 
     private lateinit var preferences : SharedPreferences
@@ -28,27 +27,31 @@ class MainActivity : AppCompatActivity(), PreferencesUtil{
         setupNavigation()
     }
 
-    private fun checkAddedCar(){
+    private fun goToStartFragment(){
         //если пользователь добавил машину, то переходим на страницу с возможностью записи маршрута
         //иначе переходим на страницу с приветствием
-        if (getBooleanValueFalse(preferences, staticVars.userAddedCar))
-            findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+        //если пользователь уже начал запись, то переходим на фрагемент с маршрутом
+        val database = AppDatabase.getAppDataBase(applicationContext)
+        if (getBooleanValueFalse(preferences, staticVars.userAddedCar)){
+            if (database != null){
+                if (database.serviceDao().get() != null){
+                    val running = database.serviceDao().get().status
+                    if (running == true) {
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
+                    } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+                } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_addCarInfo)
+            } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+        }
         else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_addCarInfo)
     }
 
     private fun setupNavigation(){
-        //контроллер навигации
-        //val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
         //views
         val drawer : DrawerLayout = findViewById(R.id.drawer)
         AppBarConfiguration.Builder(getHomeFragment()).setDrawerLayout(drawer).build()
 
-        //val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        //bottomNavigationView.inflateMenu(getMenu())
-        //NavigationUI.setupWithNavController(bottomNavigationView, navController)
-
-        checkAddedCar()
+        goToStartFragment()
     }
 
     private fun getHomeFragment() : Int{

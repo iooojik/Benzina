@@ -2,4 +2,11 @@
     <string name="app_name">Bensina</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="car_brand">Марка машины</string>
+    <string name="car_model">Модель машины</string>
+    <string name="car_year">Год машины</string>
+    <string name="car_distance">Пробег машины</string>
+    <string name="car_engine">Объём двигателя</string>
+    <string name="car_rate">Смешанный расход авто</string>
+    <string name="next">Далее</string>
 </resources>

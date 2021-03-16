@@ -8,14 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.kirovcompany.bensina.R
-import com.kirovcompany.bensina.interfaces.FragmentInit
+import com.kirovcompany.bensina.interfaces.FragmentUtil
 
 
-class BeginRoute : Fragment(), View.OnClickListener, FragmentInit {
+class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
 
     lateinit var rootView : View
 
