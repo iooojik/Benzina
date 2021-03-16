@@ -13,6 +13,7 @@ import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentInit
 import com.kirovcompany.bensina.localdb.AppDatabase
+import com.kirovcompany.bensina.localdb.car.CarModel
 import kotlin.concurrent.thread
 
 class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
@@ -84,7 +85,7 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
             val carOdometer = carOdometerField.text.toString()
             val carEngineAmount = carEngineAmountField.text.toString()
             val carRate = carRateField.text.toString()
-            saveCarInfoToPrefs(carBrand, carModel, carYear, carOdometer, carEngineAmount, carRate)
+        saveCarInfo(carBrand, carModel, carYear, carOdometer, carEngineAmount, carRate)
             requireActivity().runOnUiThread {
                 requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
             }
@@ -96,15 +97,19 @@ class AddCarInfo : Fragment(), FragmentInit, View.OnClickListener {
 
     }
 
-    private fun saveCarInfoToPrefs(carBrand: String, carModel: String, carYear: String,
+    private fun saveCarInfo(carBrand: String, carModel: String, carYear: String,
                                   carOdometer: String, carEngineAmount: String, carRate: String) {
-        saveStringToPrefs(staticVars.carBrand, carBrand)
-        saveStringToPrefs(staticVars.carModel, carModel)
-        saveStringToPrefs(staticVars.carYear, carYear)
-        saveStringToPrefs(staticVars.carOdometer, carOdometer)
-        saveStringToPrefs(staticVars.carEngineAmount, carEngineAmount)
-        saveStringToPrefs(staticVars.carRate, carRate)
-
+        val carModelObj = CarModel(
+            null,
+            carBrand,
+            carModel,
+            carYear,
+            carOdometer,
+            carEngineAmount,
+            carRate
+        )
+        database.carModelDao().deleteAll()
+        database.carModelDao().insert(carModelObj)
         saveBooleanToPrefs(staticVars.userAddedCar, true)
     }
 

@@ -10,14 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import com.kirovcompany.bensina.MyLocationListener
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentInit
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.service.ServiceModel
 import com.kirovcompany.bensina.service.LocationService
+import org.w3c.dom.Text
 
 
 @Suppress("SENSELESS_COMPARISON", "DEPRECATION")
@@ -29,6 +28,8 @@ class RouteProcess : Fragment(), FragmentInit {
     private lateinit var database: AppDatabase
     private val handler = Handler()
     private lateinit var speedTextView : TextView
+    private lateinit var carRateTextView : TextView
+    private lateinit var carDistanceTextView : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,8 @@ class RouteProcess : Fragment(), FragmentInit {
         database = getAppDatabase(requireContext())
         preferences = getSharedPreferences(requireActivity())
         speedTextView = rootView.findViewById(R.id.speed_text_view)
+        carRateTextView = rootView.findViewById(R.id.car_rate_field)
+        carDistanceTextView = rootView.findViewById(R.id.distance_text_view)
     }
 
     private fun startLocationService(){
@@ -66,6 +69,8 @@ class RouteProcess : Fragment(), FragmentInit {
                     requireActivity().runOnUiThread {
                         //показываем скорость
                         showSpeed()
+                        showCarRate()
+                        showDistance()
                     }
                 } catch (e : Exception){
                     e.printStackTrace()
@@ -76,6 +81,16 @@ class RouteProcess : Fragment(), FragmentInit {
             }
 
         })
+    }
+
+    private fun showDistance() {
+        val routeModel = database.routeProgressDao().getLast()
+        carDistanceTextView.text = routeModel.distance.toString()
+    }
+
+    private fun showCarRate() {
+        val routeModel = database.routeProgressDao().getLast()
+        carRateTextView.text = routeModel.carRate.toString()
     }
 
     private fun showSpeed(){

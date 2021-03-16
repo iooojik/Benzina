@@ -49,23 +49,28 @@ class LocationService : Service(), FragmentInit {
                     try {
                         Toast.makeText(applicationContext, MyLocationListener.imHere?.speed.toString(), Toast.LENGTH_SHORT).show()
                         val routeProgressModel : RouteProgressModel?
+
                         val distance = MyLocationListener.imHere?.let { prevLocation?.let { it1 ->
                             calcDistance(it,
                                 it1
                             ).toString()
                         } }
+
                         val speed = MyLocationListener.imHere?.speed.toString()
-                        //todo добавить сохранение данных об авто в локальную бд
+
                         //todo и добавить подсчёт расхода топлива
-                        val carRate = calcCarRate(speed.toDouble())
+                        val carRate = database.carModelDao().getLast().carRate?.let {
+                            calcCarRate(speed.toDouble(), it.toDouble())
+                        }
 
                         database
                             .routeProgressDao()
                             .insert(
                                 RouteProgressModel(
                                     null,
-
-
+                                    speed,
+                                    distance,
+                                    carRate.toString()
                                 )
                             )
                         prevLocation = MyLocationListener.imHere

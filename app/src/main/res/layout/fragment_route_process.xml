@@ -12,4 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="speed" />
+
+    <TextView
+        android:id="@+id/rate_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="rate" />
+
+    <TextView
+        android:id="@+id/distance_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="distance" />
 </LinearLayout>
