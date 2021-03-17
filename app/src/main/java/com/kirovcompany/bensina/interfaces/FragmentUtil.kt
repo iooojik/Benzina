@@ -39,6 +39,10 @@ interface FragmentUtil : PreferencesUtil {
         return SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(currentDate)
     }
 
+    fun roundDouble(double : Double) : String{
+        return String.format("%.2f", double)
+    }
+
     fun initViews()
 
 }

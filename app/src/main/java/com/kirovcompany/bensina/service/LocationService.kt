@@ -6,15 +6,12 @@ import android.location.Location
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import com.kirovcompany.bensina.MyLocationListener
 import com.kirovcompany.bensina.StaticVars
-import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.interfaces.ServiceUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.routeprogress.RouteProgressModel
 import java.lang.Exception
-import kotlin.concurrent.thread
 
 @Suppress("DEPRECATION")
 class LocationService : Service(), ServiceUtil {
@@ -53,7 +50,6 @@ class LocationService : Service(), ServiceUtil {
                 if (running) {
                     //сохранение скорости пользователя
                     try {
-                        Toast.makeText(applicationContext, MyLocationListener.imHere?.speed.toString(), Toast.LENGTH_SHORT).show()
 
                         //подсчёт дистанции от предыдущей точки
                         var distance = MyLocationListener.imHere?.let { prevLocation?.let { it1 ->
@@ -65,12 +61,15 @@ class LocationService : Service(), ServiceUtil {
                         if (distance == null) distance = 0f
 
                         //получение скорости движения
-                        val speed = MyLocationListener.imHere?.speed.toString()
+                        val speed = (MyLocationListener.imHere?.speed!! *3600/1000).toString()
 
                         //подсчёт расхода топлива
-                        val carRate = database.carModelDao().getLast().carRate?.let {
-                            (calcCarRate(speed.toDouble(), it.toDouble()) * distance) / 100f
-                        }
+                        val carRate = calcCarRate(
+                                speed.toDouble(),
+                                database.carModelDao().getLast().carRate.toDouble()
+                        )
+
+                        Log.e("ttt", "speed $speed rate $carRate distance $distance")
 
                         database
                             .routeProgressDao()
@@ -110,26 +109,24 @@ class LocationService : Service(), ServiceUtil {
 
     private fun calcCarRate(speed : Double, rate : Double): Double {
         //подсчёт расхода топлива
-        var b = (speed*rate)/100
-        b += getAdditionalRate(b)
-        return b
+        return (speed*(rate + getAdditionalRate(speed)))/100
     }
 
-    private fun getAdditionalRate(tempRate : Double) : Double{
-        return if (tempRate > 0 && tempRate <= 40)
+    private fun getAdditionalRate(speed : Double) : Double{
+        return if (speed > 0 && speed <= 40)
             3.0
-        else if (tempRate > 40 && tempRate <= 70)
+        else if (speed > 40 && speed <= 70)
             2.0
-        else if (tempRate > 70 && tempRate <= 80)
+        else if (speed > 70 && speed <= 80)
             0.0
-        else if (tempRate > 80 && tempRate <= 120)
+        else if (speed > 80 && speed <= 120)
             -2.0
         else +1.0
     }
 
     private fun calcDistance(currLocation : Location, prevLocation : Location): Float {
         //подсчёт пройденной дистанции
-        return prevLocation.distanceTo(currLocation)
+        return prevLocation.distanceTo(currLocation)/1000
     }
 
 }

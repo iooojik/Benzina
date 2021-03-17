@@ -153,16 +153,16 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener {
     private fun showDistance() {
         val routeModel = database.routeProgressDao().getLast()
         distance += routeModel.distance.toDouble()
-        carDistanceTextView.text = distance.toString()
+        carDistanceTextView.text = roundDouble(distance)
     }
 
     private fun showCarRate() {
-        carRateTextView.text = calcCarRate().toString()
+        carRateTextView.text = roundDouble(calcCarRate())
     }
 
     private fun showSpeed(){
         val routeModel = database.routeProgressDao().getLast()
-        speedTextView.text = routeModel.speed.toString()
+        speedTextView.text = roundDouble(routeModel.speed.toDouble())
     }
 
     private fun calcCarRate() : Double{

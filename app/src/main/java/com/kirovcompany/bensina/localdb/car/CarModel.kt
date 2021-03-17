@@ -26,6 +26,6 @@ class CarModel(
     var carEngineAmount : String? = null,
 
     @ColumnInfo(name = "car_rate")
-    var carRate : String? = null
+    var carRate : String
 
 )

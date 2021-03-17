@@ -251,8 +251,10 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
     }
 
     private fun checkPermissionsAndStartRoute() {
-        if (checkPermissions())
+        if (checkPermissions()){
+            database.routeProgressDao().deleteAll()
             findNavController().navigate(R.id.navigation_routeProcess)
+        }
     }
 
     private fun checkPermissions() : Boolean {
