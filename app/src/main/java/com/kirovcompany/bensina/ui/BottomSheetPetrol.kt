@@ -3,9 +3,7 @@ package com.kirovcompany.bensina.ui
 import android.app.Activity
 import android.content.Context
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +23,7 @@ class BottomSheetPetrol (
     private val preferences = activity.getSharedPreferences(StaticVars().preferencesName, Context.MODE_PRIVATE)
     private val database : AppDatabase = AppDatabase.getAppDataBase(context)!!
     private val mainActivity = MainActivity()
+    private val staticVars = StaticVars()
 
     init {
         //"подготовка" bottomSheetDialog
@@ -34,6 +33,8 @@ class BottomSheetPetrol (
 
     private fun initialize() {
         //слушатель на кнопку
+        val adapter = ArrayAdapter(context, R.layout.dropdown_item, staticVars.currencyValues)
+        bottomView.findViewById<AutoCompleteTextView>(R.id.currency_text_view).setAdapter(adapter)
         bottomView.findViewById<Button>(R.id.add_button).setOnClickListener(this)
     }
 
@@ -63,12 +64,12 @@ class BottomSheetPetrol (
         val priceText = bottomView.findViewById<EditText>(R.id.price_text_view).text
         var price = 0f.toDouble()
         price = if (priceText.isNullOrBlank()) 0.0
-        else priceText.toString().toDouble()
+                else priceText.toString().toDouble()
         return price
     }
 
     private fun getCurrency(): String {
-        return bottomView.findViewById<EditText>(R.id.currency_text_view).text.toString()
+        return bottomView.findViewById<AutoCompleteTextView>(R.id.currency_text_view).text.toString()
     }
 
 

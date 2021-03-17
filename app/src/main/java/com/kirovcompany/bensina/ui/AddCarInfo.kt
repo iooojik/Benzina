@@ -52,6 +52,10 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         preferences = getSharedPreferences(requireActivity())
 
         database = getAppDatabase(requireContext())
+        database.petrolDao().deleteAll()
+        database.timerDao().deleteAll()
+        database.routeProgressDao().deleteAll()
+
         setCarModels()
     }
 

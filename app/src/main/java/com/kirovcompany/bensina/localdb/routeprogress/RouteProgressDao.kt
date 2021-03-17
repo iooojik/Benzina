@@ -17,4 +17,7 @@ interface RouteProgressDao {
     @Query("SELECT * FROM routeprogressmodel ORDER BY _id DESC LIMIT 1")
     fun getLast() : RouteProgressModel
 
+    @Query("DELETE FROM routeprogressmodel")
+    fun deleteAll()
+
 }

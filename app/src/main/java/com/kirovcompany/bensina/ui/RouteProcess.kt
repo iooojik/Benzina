@@ -18,6 +18,7 @@ import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
+import com.kirovcompany.bensina.localdb.routesperday.RoutesPerDayModel
 import com.kirovcompany.bensina.localdb.service.ServiceModel
 import com.kirovcompany.bensina.service.LocationService
 import kotlin.concurrent.thread
@@ -156,13 +157,32 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener {
     }
 
     private fun showCarRate() {
-        val routeModel = database.routeProgressDao().getLast()
-        carRateTextView.text = routeModel.carRate.toString()
+        carRateTextView.text = calcCarRate().toString()
     }
 
     private fun showSpeed(){
         val routeModel = database.routeProgressDao().getLast()
         speedTextView.text = routeModel.speed.toString()
+    }
+
+    private fun calcCarRate() : Double{
+        val mds = database.routeProgressDao().getAll()
+        var rate = 0.0
+        for (m in mds){
+            rate += m.carRate.toDouble()
+        }
+        rate /= mds.size
+        return rate
+    }
+
+    private fun calcCarSpeed() : Double{
+        val mds = database.routeProgressDao().getAll()
+        var speed = 0.0
+        for (m in mds){
+            speed += m.speed.toDouble()
+        }
+        speed /= mds.size
+        return speed
     }
 
     override fun onClick(v: View?) {
@@ -176,6 +196,18 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener {
                     requireActivity().stopService(mService)
                     md.status = running
                     database.serviceDao().update(md)
+
+                    var routeCounter = database.routesPerDayModel().getByDate(getCurrentDate())
+
+                    if (routeCounter == null){
+                        routeCounter = RoutesPerDayModel(null, getCurrentDate(), 1, calcCarRate(), calcCarSpeed())
+                        database.routesPerDayModel().insert(routeCounter)
+                    } else {
+                        routeCounter.num = routeCounter.num + 1
+                        routeCounter.averageCarRate = (routeCounter.averageCarRate + calcCarRate()) / 2
+                        routeCounter.averageSpeed = (routeCounter.averageSpeed + calcCarSpeed()) / 2
+                        database.routesPerDayModel().update(routeCounter)
+                    }
 
                    requireActivity().findNavController(R.id.nav_host_fragment)
                            .navigate(R.id.navigation_beginRoute)

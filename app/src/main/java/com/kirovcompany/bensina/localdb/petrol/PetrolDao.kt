@@ -12,4 +12,7 @@ interface PetrolDao {
 
     @Query("SELECT * FROM petrolmodel")
     fun getAll() : List<PetrolModel>
+
+    @Query("DELETE FROM petrolmodel")
+    fun deleteAll()
 }
