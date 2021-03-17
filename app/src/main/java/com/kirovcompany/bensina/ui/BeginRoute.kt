@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.BarLineChartBase
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -24,7 +22,6 @@ import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -239,7 +236,7 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
         database = getAppDatabase(requireContext())
         rootView.findViewById<Button>(R.id.begin_route_button).setOnClickListener(this)
         requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).show()
-        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity())
+        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity(), this)
     }
 
     override fun onClick(v: View?) {
@@ -272,7 +269,7 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
         return false
     }
 
-    private fun showExpenses(){
+    fun showExpenses(){
         val mds = database.petrolDao().getAll()
         var rubExpenses = 0.0
         var grivnExpenses = 0.0

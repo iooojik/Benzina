@@ -15,14 +15,13 @@ import com.kirovcompany.bensina.localdb.petrol.PetrolModel
 
 class BottomSheetPetrol (
     private val context: Context,
-    private val activity: Activity
+    activity: Activity,
+    private val fragment: BeginRoute? = null
 ) : View.OnClickListener{
 
     private val bottomView : View = activity.layoutInflater.inflate(R.layout.bottom_sheet_petrol, null)
     val bottomSheetDialog : BottomSheetDialog = BottomSheetDialog(context)
-    private val preferences = activity.getSharedPreferences(StaticVars().preferencesName, Context.MODE_PRIVATE)
     private val database : AppDatabase = AppDatabase.getAppDataBase(context)!!
-    private val mainActivity = MainActivity()
     private val staticVars = StaticVars()
 
     init {
@@ -49,6 +48,7 @@ class BottomSheetPetrol (
     private fun savePetrolInfo(currency: String, price: Double, amount: Double) {
         database.petrolDao().insert(PetrolModel(null, currency, price, amount))
         Toast.makeText(context, "Добавлено", Toast.LENGTH_LONG).show()
+        fragment?.showExpenses()
         bottomSheetDialog.hide()
     }
 

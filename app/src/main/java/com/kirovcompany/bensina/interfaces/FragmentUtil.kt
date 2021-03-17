@@ -7,6 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.localdb.AppDatabase
+import com.kirovcompany.bensina.ui.BeginRoute
 import com.kirovcompany.bensina.ui.BottomSheetPetrol
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,9 +26,9 @@ interface FragmentUtil : PreferencesUtil {
         activity.onBackPressedDispatcher.addCallback(fragment.viewLifecycleOwner, callback)
     }
 
-    fun setFabAction(fab: ExtendedFloatingActionButton, context: Context, activity: Activity){
+    fun setFabAction(fab: ExtendedFloatingActionButton, context: Context, activity: Activity, fragment: BeginRoute?){
         fab.setOnClickListener {
-            val bottomSheetAddChild = BottomSheetPetrol(context, activity).bottomSheetDialog
+            val bottomSheetAddChild = BottomSheetPetrol(context, activity, fragment).bottomSheetDialog
             bottomSheetAddChild.show()
         }
     }

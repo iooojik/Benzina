@@ -12,7 +12,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
@@ -21,7 +20,6 @@ import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.routesperday.RoutesPerDayModel
 import com.kirovcompany.bensina.localdb.service.ServiceModel
 import com.kirovcompany.bensina.service.LocationService
-import kotlin.concurrent.thread
 
 
 @Suppress("SENSELESS_COMPARISON", "DEPRECATION")
@@ -81,7 +79,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener {
         rootView.findViewById<Button>(R.id.stop_button).setOnClickListener(this)
         mService = Intent(requireContext(), LocationService::class.java)
         requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).show()
-        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity())
+        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity(), null)
 
         val m = database.timerDao().get()
         m.seconds = 0
