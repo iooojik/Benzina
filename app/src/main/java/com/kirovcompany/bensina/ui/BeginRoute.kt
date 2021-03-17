@@ -108,6 +108,8 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
             dataSets.add(lineDataSet)
 
             chart.data = LineData(dataSets)
+        }  else {
+            rootView.findViewById<LineChart>(R.id.routes_chart).visibility = View.GONE
         }
     }
 
@@ -167,6 +169,8 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
             chart.invalidate()
 
             //chart.animateY(500)
+        }  else {
+            rootView.findViewById<BarChart>(R.id.rate_chart).visibility = View.GONE
         }
     }
 
@@ -226,6 +230,8 @@ class BeginRoute : Fragment(), View.OnClickListener, FragmentUtil {
             chart.invalidate()
 
             //chart.animateY(500)
+        } else {
+            rootView.findViewById<BarChart>(R.id.speed_chart).visibility = View.GONE
         }
     }
 
