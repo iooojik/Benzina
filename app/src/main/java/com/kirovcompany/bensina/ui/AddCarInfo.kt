@@ -1,19 +1,24 @@
 package com.kirovcompany.bensina.ui
 
+import android.Manifest
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.car.CarModel
+import com.kirovcompany.bensina.localdb.service.ServiceModel
 import com.kirovcompany.bensina.localdb.timer.TimerModel
 import kotlin.concurrent.thread
 
@@ -83,7 +88,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     private fun saveCarInfo() {
         //если нет пустых полей, то сохраняем информацию и переходим на следующее окно
         //иначе выводим уведомление
-        //TODO if (!emptyFields()){
+        if (!emptyFields()){
             val carBrand = carBrandField.text.toString()
             val carModel = carModelField.text.toString()
             val carYear = carYearField.text.toString()
@@ -92,13 +97,14 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
             val carRate = carRateField.text.toString()
         saveCarInfo(carBrand, carModel, carYear, carOdometer, carEngineAmount, carRate)
             requireActivity().runOnUiThread {
-                requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+                checkPermissions()
+                requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
             }
-        //} else {
-        //    requireActivity().runOnUiThread {
-        //        Snackbar.make(rootView, "Не все поля заполнены", Snackbar.LENGTH_LONG).show()
-        //    }
-       // }
+        } else {
+            requireActivity().runOnUiThread {
+                Snackbar.make(rootView, "Не все поля заполнены", Snackbar.LENGTH_LONG).show()
+            }
+        }
 
     }
 
@@ -116,6 +122,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         database.carModelDao().deleteAll()
         database.carModelDao().insert(carModelObj)
         database.timerDao().insert(TimerModel(null, 0))
+        database.serviceDao().insert(ServiceModel(null, false))
         saveBooleanToPrefs(staticVars.userAddedCar, true)
     }
 
@@ -125,6 +132,21 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
 
     private fun saveBooleanToPrefs(key : String, value : Boolean){
         saveBooleanToSharedPreferences(preferences, key, value)
+    }
+
+    private fun checkPermissions() : Boolean {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+            &&
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).toTypedArray(),
+                101
+            )
+        } else return true
+        return false
     }
 
     private fun emptyFields() : Boolean{

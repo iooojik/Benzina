@@ -52,17 +52,17 @@ class MainActivity : AppCompatActivity(), PreferencesUtil{
 
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
-                    } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+                    } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
                 } else if(database.serviceDao().get() == null || getBooleanValueFalse(preferences, staticVars.userAddedCar)) {
 
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
-                }  else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_addCarInfo)
+                }  else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_helloFragment)
 
-            } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_beginRoute)
+            } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
-        } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_addCarInfo)
+        } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_helloFragment)
     }
 
     private fun setupNavigation(){
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil{
 
     private fun getHomeFragment() : Int{
         return if (getBooleanValueFalse(preferences, staticVars.userAddedCar))
-            R.layout.fragment_begin_route
+            R.layout.fragment_route_process
         else R.layout.fragment_add_car_info
     }
 

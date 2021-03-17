@@ -11,4 +11,7 @@
     <dimen name="round_buttons_icons">36dp</dimen>
     <dimen name="bottom_navigation">55dp</dimen>
     <dimen name="fab_bottom">65dp</dimen>
+    <dimen name="blocks_margin">4dp</dimen>
+    <dimen name="blockTextSize">16sp</dimen>
+    <dimen name="blockNameTextSize">18sp</dimen>
 </resources>

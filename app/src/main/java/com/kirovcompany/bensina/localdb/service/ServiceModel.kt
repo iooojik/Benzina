@@ -11,5 +11,5 @@ class ServiceModel(
     val id : Long? = null,
 
     @ColumnInfo(name = "status")
-    var status : Boolean? = null
+    var status : Boolean
 )

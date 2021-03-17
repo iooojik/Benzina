@@ -15,8 +15,7 @@ import com.kirovcompany.bensina.localdb.petrol.PetrolModel
 
 class BottomSheetPetrol (
     private val context: Context,
-    activity: Activity,
-    private val fragment: BeginRoute? = null
+    activity: Activity
 ) : View.OnClickListener{
 
     private val bottomView : View = activity.layoutInflater.inflate(R.layout.bottom_sheet_petrol, null)
@@ -48,7 +47,6 @@ class BottomSheetPetrol (
     private fun savePetrolInfo(currency: String, price: Double, amount: Double) {
         database.petrolDao().insert(PetrolModel(null, currency, price, amount))
         Toast.makeText(context, "Добавлено", Toast.LENGTH_LONG).show()
-        fragment?.showExpenses()
         bottomSheetDialog.hide()
     }
 

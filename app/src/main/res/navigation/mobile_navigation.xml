@@ -2,9 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_beginRoute">
-
+    app:startDestination="@id/navigation_helloFragment"
+    android:id="@+id/mobile_navigation">
 
     <fragment
         android:id="@+id/navigation_addCarInfo"
@@ -12,17 +11,7 @@
         android:label="fragment_add_car_info"
         tools:layout="@layout/fragment_add_car_info" >
         <action
-            android:id="@+id/action_addCarInfo_to_beginRoute"
-            app:destination="@id/navigation_beginRoute" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_beginRoute"
-        android:name="com.kirovcompany.bensina.ui.BeginRoute"
-        android:label="fragment_begin_route"
-        tools:layout="@layout/fragment_begin_route" >
-        <action
-            android:id="@+id/action_beginRoute_to_routeProcess"
+            android:id="@+id/action_navigation_addCarInfo_to_navigation_routeProcess"
             app:destination="@id/navigation_routeProcess" />
     </fragment>
 
@@ -31,4 +20,13 @@
         android:name="com.kirovcompany.bensina.ui.RouteProcess"
         android:label="fragment_route_process"
         tools:layout="@layout/fragment_route_process" />
+    <fragment
+        android:id="@+id/navigation_helloFragment"
+        android:name="com.kirovcompany.bensina.ui.HelloFragment"
+        android:label="fragment_hello"
+        tools:layout="@layout/fragment_hello" >
+        <action
+            android:id="@+id/action_helloFragment_to_navigation_addCarInfo"
+            app:destination="@id/navigation_addCarInfo" />
+    </fragment>
 </navigation>

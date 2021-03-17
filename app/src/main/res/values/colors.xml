@@ -5,11 +5,15 @@
     <color name="colorSecondary">#33333d</color>
     <color name="colorAccent">#33333d</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorBlack">#000</color>
 
     <color name="colorPetrol">#169873</color>
     <color name="colorSpeed">#c60319</color>
     <color name="colorRate">#e1a61c</color>
-    <color name="distanceColor">#00bfff</color>
+    <color name="colorDistance">#00bfff</color>
+
+    <color name="blockTextColor">#689bb5</color>
+    <color name="colorGrey">#e8e8e8</color>
 
     <color name="colorWarning">#D32F2F</color>
     <color name="colorCancel">#757575</color>
