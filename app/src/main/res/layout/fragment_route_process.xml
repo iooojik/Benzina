@@ -212,7 +212,6 @@
 
         </LinearLayout>
 
-        <include layout="@layout/fuel_stats"/>
 
     </LinearLayout>
 

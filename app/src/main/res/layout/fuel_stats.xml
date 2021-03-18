@@ -9,7 +9,9 @@
         android:id="@+id/fuel_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Траты на бензин:" />
+        android:layout_margin="@dimen/fab_margin"
+        android:text="Траты на бензин"
+        android:textSize="28sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,14 +22,21 @@
             android:id="@+id/in_rubs_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="В рублях:" />
+            android:layout_marginStart="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:text="В рублях:"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/rub_expenses"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/elements_margin"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/_0_00"
+            android:fontFamily="@font/eczar_regular"
+            android:textColor="@color/blockTextColor"
+            android:textSize="@dimen/blockTextSize" />
 
     </LinearLayout>
 
@@ -40,14 +49,21 @@
             android:id="@+id/in_grivn_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="В гривнах:" />
+            android:layout_marginStart="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:text="В гривнах:"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/grivn_expenses"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/elements_margin"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/_0_00"
+            android:fontFamily="@font/eczar_regular"
+            android:textColor="@color/blockTextColor"
+            android:textSize="@dimen/blockTextSize" />
 
     </LinearLayout>
 
@@ -60,14 +76,21 @@
             android:id="@+id/in_pounds_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="В фунтах:" />
+            android:layout_marginStart="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:text="В фунтах:"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/pounds_expenses"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/elements_margin"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/_0_00"
+            android:fontFamily="@font/eczar_regular"
+            android:textColor="@color/blockTextColor"
+            android:textSize="@dimen/blockTextSize" />
 
     </LinearLayout>
 
@@ -80,14 +103,21 @@
             android:id="@+id/in_euro_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="В евро:" />
+            android:layout_marginStart="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:text="В евро:"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/euro_expenses"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/elements_margin"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/_0_00"
+            android:fontFamily="@font/eczar_regular"
+            android:textColor="@color/blockTextColor"
+            android:textSize="@dimen/blockTextSize" />
 
     </LinearLayout>
 
@@ -100,14 +130,21 @@
             android:id="@+id/in_dollars_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="В долларах:" />
+            android:layout_marginStart="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:text="В долларах:"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/dollars_expenses"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/elements_margin"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/_0_00"
+            android:fontFamily="@font/eczar_regular"
+            android:textColor="@color/blockTextColor"
+            android:textSize="@dimen/blockTextSize" />
 
     </LinearLayout>
 

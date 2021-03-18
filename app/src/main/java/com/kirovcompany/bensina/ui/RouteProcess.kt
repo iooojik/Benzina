@@ -117,11 +117,6 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                         rootView.findViewById(R.id.distance_count)
                     )
 
-                    showExpenses(
-                        database,
-                        rootView
-                    )
-
                     rootView.findViewById<Chip>(R.id.last_week_routes).setOnClickListener(this)
                     rootView.findViewById<Chip>(R.id.last_month_routes).setOnClickListener(this)
                     rootView.findViewById<Chip>(R.id.last_half_year_routes).setOnClickListener(this)
