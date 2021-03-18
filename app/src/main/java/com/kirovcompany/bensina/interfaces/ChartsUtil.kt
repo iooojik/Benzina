@@ -217,19 +217,34 @@ interface ChartsUtil : FragmentUtil {
         }
 
         if (rubExpenses > 0.0) rootView.findViewById<TextView>(R.id.rub_expenses).text = rubExpenses.toInt().toString()
-        else rootView.findViewById<TextView>(R.id.rub_expenses).visibility = View.GONE
+        else {
+            rootView.findViewById<TextView>(R.id.rub_expenses).visibility = View.GONE
+            rootView.findViewById<TextView>(R.id.in_rubs_text_view).visibility = View.GONE
+        }
 
         if (grivnExpenses > 0.0) rootView.findViewById<TextView>(R.id.grivn_expenses).text = grivnExpenses.toInt().toString()
-        else rootView.findViewById<TextView>(R.id.grivn_expenses).visibility = View.GONE
+        else {
+            rootView.findViewById<TextView>(R.id.grivn_expenses).visibility = View.GONE
+            rootView.findViewById<TextView>(R.id.in_grivn_text_view).visibility = View.GONE
+        }
 
         if (dollarsExpenses > 0.0) rootView.findViewById<TextView>(R.id.dollars_expenses).text = dollarsExpenses.toInt().toString()
-        else rootView.findViewById<TextView>(R.id.dollars_expenses).visibility = View.GONE
+        else {
+            rootView.findViewById<TextView>(R.id.dollars_expenses).visibility = View.GONE
+            rootView.findViewById<TextView>(R.id.in_dollars_text_view).visibility = View.GONE
+        }
 
         if (euroExpenses > 0.0) rootView.findViewById<TextView>(R.id.euro_expenses).text = euroExpenses.toInt().toString()
-        else rootView.findViewById<TextView>(R.id.euro_expenses).visibility = View.GONE
+        else {
+            rootView.findViewById<TextView>(R.id.euro_expenses).visibility = View.GONE
+            rootView.findViewById<TextView>(R.id.in_euro_text_view).visibility = View.GONE
+        }
 
         if (poundsExpenses > 0.0) rootView.findViewById<TextView>(R.id.pounds_expenses).text = poundsExpenses.toInt().toString()
-        else rootView.findViewById<TextView>(R.id.pounds_expenses).visibility = View.GONE
+        else {
+            rootView.findViewById<TextView>(R.id.pounds_expenses).visibility = View.GONE
+            rootView.findViewById<TextView>(R.id.in_pounds_text_view).visibility = View.GONE
+        }
 
     }
 

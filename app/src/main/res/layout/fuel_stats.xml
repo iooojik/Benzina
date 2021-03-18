@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Траты на бензин:" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/in_rubs_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="В рублях:" />
+
+        <TextView
+            android:id="@+id/rub_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/in_grivn_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="В гривнах:" />
+
+        <TextView
+            android:id="@+id/grivn_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/in_pounds_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="В фунтах:" />
+
+        <TextView
+            android:id="@+id/pounds_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/in_euro_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="В евро:" />
+
+        <TextView
+            android:id="@+id/euro_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/in_dollars_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="В долларах:" />
+
+        <TextView
+            android:id="@+id/dollars_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -61,18 +61,34 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
     private fun prepareViews() {
         getStatus()
-        val inflater = layoutInflater
+
         btn = if (!running){
-            inflater.inflate(R.layout.button_start, null)
-        } else inflater.inflate(R.layout.button_stop, null)
+            layoutInflater.inflate(R.layout.button_start, null)
+        } else layoutInflater.inflate(R.layout.button_stop, null)
         btn.setOnClickListener(this)
         rootView.findViewById<LinearLayout>(R.id.layout_stats).addView(btn)
+        showStatistics(false)
 
+    }
+
+    fun showStatistics(isUpdate : Boolean){
         synchronized(this){
-            showAverageSpeed(database, rootView)
-            showRateGraphic(database, rootView)
-            showRoutesPerDayGraphic(database, rootView)
-            showExpenses(database, rootView)
+            if (!database.routesPerDayModel().getAll().isNullOrEmpty()){
+                if (!isUpdate)
+                rootView.findViewById<LinearLayout>(R.id.layout_stats).addView(
+                        layoutInflater.inflate(R.layout.graphics_items, null)
+                )
+                showAverageSpeed(database, rootView)
+                showRateGraphic(database, rootView)
+                showRoutesPerDayGraphic(database, rootView)
+            }
+            if (!database.petrolDao().getAll().isNullOrEmpty()){
+                if (!isUpdate)
+                rootView.findViewById<LinearLayout>(R.id.layout_stats).addView(
+                        layoutInflater.inflate(R.layout.fuel_stats, null)
+                )
+                showExpenses(database, rootView)
+            }
         }
     }
 
@@ -99,7 +115,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
         timerTextView = rootView.findViewById(R.id.timer_text_view)
         mService = Intent(requireContext(), LocationService::class.java)
         requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).show()
-        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity())
+        setFabAction(requireActivity().findViewById(R.id.fab), requireContext(), requireActivity(), this)
     }
 
     private fun getStatus(){
@@ -259,7 +275,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
             }
 
             R.id.fab -> {
-                val bottomSheetDialog = BottomSheetPetrol(requireContext(), requireActivity()).bottomSheetDialog
+                val bottomSheetDialog = BottomSheetPetrol(requireContext(), requireActivity(), this).bottomSheetDialog
                 bottomSheetDialog.show()
             }
         }
