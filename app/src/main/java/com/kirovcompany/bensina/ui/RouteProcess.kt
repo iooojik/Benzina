@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -13,9 +14,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
@@ -78,9 +81,71 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                 rootView.findViewById<LinearLayout>(R.id.statistics_layout).addView(
                         layoutInflater.inflate(R.layout.graphics_items, null)
                 )
-                showAverageSpeed(database, rootView)
-                showRateGraphic(database, rootView)
-                showRoutesPerDayGraphic(database, rootView)
+                try {
+                    showAverageSpeed(
+                        database,
+                        rootView,
+                        requireActivity(),
+                        false,
+                        0,
+                        rootView.findViewById(R.id.speed_count)
+                    )
+                    showRateGraphic(
+                        database,
+                        rootView,
+                        requireActivity(),
+                        false,
+                        0,
+                        rootView.findViewById(R.id.rates_count)
+                    )
+
+                    showRoutesPerDayGraphic(
+                        database,
+                        rootView,
+                        requireActivity(),
+                        false,
+                        0,
+                        rootView.findViewById(R.id.routes_count)
+                    )
+
+                    showDistance(
+                        database,
+                        rootView,
+                        requireActivity(),
+                        false,
+                        0,
+                        rootView.findViewById(R.id.distance_count)
+                    )
+
+                    showExpenses(
+                        database,
+                        rootView
+                    )
+
+                    rootView.findViewById<Chip>(R.id.last_week_routes).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_month_routes).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_half_year_routes).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_year_routes).setOnClickListener(this)
+
+                    rootView.findViewById<Chip>(R.id.last_week_rate).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_month_rate).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_half_year_rate).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_year_rate).setOnClickListener(this)
+
+                    rootView.findViewById<Chip>(R.id.last_week_speed).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_month_speed).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_half_year_speed).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_year_speed).setOnClickListener(this)
+
+                    rootView.findViewById<Chip>(R.id.last_week_distance).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_month_distance).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_half_year_distance).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_year_distance).setOnClickListener(this)
+
+                } catch (e : java.lang.Exception){
+                    e.printStackTrace()
+                    Log.e("error", "old api")
+                }
             }
             if (!database.petrolDao().getAll().isNullOrEmpty()){
                 if (!isUpdate)
@@ -92,7 +157,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
         }
     }
 
-    private fun calcDistance() {
+    private fun calcDistance() : Double{
         val mds = database.routeProgressDao().getAll()
         if (!mds.isNullOrEmpty()){
             for (m in mds){
@@ -104,6 +169,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
             }
         }
+        return distance
     }
 
     override fun initViews() {
@@ -240,7 +306,14 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                     var routeCounter = database.routesPerDayModel().getByDate(getCurrentDate())
 
                     if (routeCounter == null){
-                        routeCounter = RoutesPerDayModel(null, getCurrentDate(), 1, calcCarRate(), calcCarSpeed())
+                        routeCounter = RoutesPerDayModel(
+                            null,
+                            getCurrentDate(),
+                            1,
+                            calcCarRate(),
+                            calcCarSpeed(),
+                            distance
+                        )
                         database.routesPerDayModel().insert(routeCounter)
                     } else {
                         routeCounter.num = routeCounter.num + 1
@@ -277,6 +350,183 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
             R.id.fab -> {
                 val bottomSheetDialog = BottomSheetPetrol(requireContext(), requireActivity(), this).bottomSheetDialog
                 bottomSheetDialog.show()
+                showExpenses(database, rootView)
+            }
+
+            R.id.last_week_routes -> {
+                showRoutesPerDayGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    7,
+                    rootView.findViewById(R.id.routes_count)
+                )
+            }
+
+            R.id.last_month_routes -> {
+                showRoutesPerDayGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    30,
+                    rootView.findViewById(R.id.routes_count)
+                )
+            }
+
+            R.id.last_half_year_routes -> {
+                showRoutesPerDayGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    180,
+                    rootView.findViewById(R.id.routes_count)
+                )
+            }
+
+            R.id.last_year_routes -> {
+                showRoutesPerDayGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    365,
+                    rootView.findViewById(R.id.routes_count)
+                )
+            }
+
+            R.id.last_week_rate -> {
+                showRateGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    7,
+                    rootView.findViewById(R.id.rates_count)
+                )
+            }
+
+            R.id.last_month_rate -> {
+                showRateGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    30,
+                    rootView.findViewById(R.id.rates_count)
+                )
+            }
+
+            R.id.last_half_year_rate -> {
+                showRateGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    180,
+                    rootView.findViewById(R.id.rates_count)
+                )
+            }
+
+            R.id.last_year_rate -> {
+                showRateGraphic(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    365,
+                    rootView.findViewById(R.id.rates_count)
+                )
+            }
+
+            R.id.last_week_speed -> {
+                showAverageSpeed(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    7,
+                    rootView.findViewById(R.id.speed_count)
+                )
+            }
+
+            R.id.last_month_speed -> {
+                showAverageSpeed(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    30,
+                    rootView.findViewById(R.id.speed_count)
+                )
+            }
+
+            R.id.last_half_year_speed -> {
+                showAverageSpeed(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    180,
+                    rootView.findViewById(R.id.speed_count)
+                )
+            }
+
+            R.id.last_year_speed -> {
+                showAverageSpeed(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    365,
+                    rootView.findViewById(R.id.speed_count)
+                )
+            }
+
+            R.id.last_week_distance -> {
+                showDistance(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    7,
+                    rootView.findViewById(R.id.distance_count)
+                )
+            }
+
+            R.id.last_month_distance -> {
+                showDistance(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    30,
+                    rootView.findViewById(R.id.distance_count)
+                )
+            }
+
+            R.id.last_half_year_distance -> {
+                showDistance(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    180,
+                    rootView.findViewById(R.id.distance_count)
+                )
+            }
+
+            R.id.last_year_distance -> {
+                showDistance(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    365,
+                    rootView.findViewById(R.id.distance_count)
+                )
             }
         }
     }

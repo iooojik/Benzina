@@ -20,5 +20,8 @@ class RoutesPerDayModel (
         var averageCarRate : Double,
 
         @ColumnInfo(name = "average_speed")
-        var averageSpeed : Double
+        var averageSpeed : Double,
+
+        @ColumnInfo(name = "distance")
+        var distance : Double
 )

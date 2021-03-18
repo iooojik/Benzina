@@ -1,83 +1,129 @@
 package com.kirovcompany.bensina.interfaces
 
+import android.app.Activity
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.localdb.AppDatabase
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 interface ChartsUtil : FragmentUtil {
 
-    fun showAverageSpeed(database : AppDatabase, bottomView : View){
+    fun showRoutesPerDayGraphic(
+        database: AppDatabase, bottomView: View, activity: Activity,
+        invalidate: Boolean, range: Int = 0, textViewAll: TextView
+    ) {
+
         val models = database.routesPerDayModel().getAll()
+
         if (!models.isNullOrEmpty()){
 
-            val values : ArrayList<BarEntry> = arrayListOf()
+            val values : ArrayList<Entry> = arrayListOf()
             val dates : ArrayList<String> = arrayListOf()
 
+            var topValue = 0.0.toDouble()
+
             for (i in models.indices){
-                values.add(
-                    BarEntry(
-                    i.toFloat(), (models[i].averageSpeed).toInt().toFloat()
-                )
-                )
-                dates.add(models[i].date)
+
+
+                if (invalidate){
+
+                    val modelDate = SimpleDateFormat("dd.MM.yyyy").parse(models[i].date)
+                    val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())
+
+
+                    if (abs(daysBetween(modelDate, cDate)) <= range){
+
+                        values.add(
+                            Entry(
+                                i.toFloat(), (models[i].num).toInt().toFloat()
+                            )
+                        )
+
+                        topValue+=models[i].num
+
+                        dates.add(models[i].date)
+                    }
+
+                } else {
+                    values.add(
+                        Entry(
+                            i.toFloat(), (models[i].num).toInt().toFloat()
+                        )
+                    )
+                    topValue+=models[i].num
+                    dates.add(models[i].date)
+                }
             }
 
-            val chart = bottomView.findViewById<BarChart>(R.id.speed_chart)
-            chart.setFitBars(true)
+            textViewAll.text = (topValue/models.size).toInt().toString()
+
+            val chart = bottomView.findViewById<LineChart>(R.id.routes_chart)
+
+            chart.invalidate()
+
             chart.description.isEnabled = false
-
-
-            chart.setPinchZoom(false)
-            chart.isDoubleTapToZoomEnabled = false
 
             chart.legend.isEnabled = false
             chart.legend.textColor = Color.parseColor("#2a2d43")
             chart.legend.textSize = 14f
 
-            //chart.xAxis.textColor = Color.WHITE
+            chart.xAxis.valueFormatter = IndexAxisValueFormatter(dates)
+            chart.xAxis.textColor = Color.WHITE
             chart.xAxis.setDrawGridLines(false)
+            chart.xAxis.granularity = 1f
 
 
             //chart.axisLeft.textColor = Color.WHITE
             chart.axisLeft.isEnabled = true
-            chart.axisLeft.setDrawGridLines(false)
+            chart.axisLeft.setDrawGridLines(true)
+            chart.axisLeft.gridColor = Color.parseColor("#757575")
+            chart.axisLeft.textColor = Color.parseColor("#757575")
 
             chart.axisRight.isEnabled = false
             chart.axisRight.textColor = Color.WHITE
 
 
-            val barDataSet = BarDataSet(values, "Количество выполненных поездок в день")
+            val lineDataSet = LineDataSet(values, "Количество выполненных поездок в день")
 
-            barDataSet.valueTextColor = Color.parseColor("#2a2d43")
-            barDataSet.valueTextSize = 14f
-            /*
-            barDataSet.disableDashedLine()
-            barDataSet.lineWidth = 3f
-            barDataSet.setDrawFilled(true)
-            barDataSet.fillColor = Color.parseColor("#B15DFF")
-            barDataSet.setDrawHorizontalHighlightIndicator(false)
+            lineDataSet.valueTextColor = Color.parseColor("#2a2d43")
+            lineDataSet.valueTextSize = 14f
+            lineDataSet.disableDashedLine()
+            lineDataSet.lineWidth = 3f
+            lineDataSet.setDrawFilled(true)
+            lineDataSet.fillColor = Color.parseColor("#B15DFF")
+            lineDataSet.setDrawHorizontalHighlightIndicator(false)
+            lineDataSet.setDrawValues(false)
 
-             */
+            val dataSets : ArrayList<ILineDataSet> = ArrayList()
+            dataSets.add(lineDataSet)
 
-            val data = BarData(barDataSet)
-            chart.data = data
-            chart.invalidate()
+            chart.data = LineData(dataSets)
 
-            //chart.animateY(500)
-        } else {
-            bottomView.findViewById<BarChart>(R.id.speed_chart).visibility = View.GONE
+            activity.runOnUiThread {
+                chart.animateY(500)
+                chart.animateX(200)
+            }
+
+        }  else {
+            bottomView.findViewById<LineChart>(R.id.routes_chart).visibility = View.GONE
         }
     }
 
-    fun showRateGraphic(database : AppDatabase, bottomView : View){
+    fun showRateGraphic(
+        database: AppDatabase, bottomView: View, activity: Activity,
+        invalidate: Boolean, range: Int = 0, textViewAll: TextView
+    ){
         val models = database.routesPerDayModel().getAll()
         if (!models.isNullOrEmpty()){
 
@@ -85,11 +131,36 @@ interface ChartsUtil : FragmentUtil {
             val dates : ArrayList<String> = arrayListOf()
 
             for (i in models.indices){
-                values.add(BarEntry(
-                    i.toFloat(), (models[i].averageCarRate).toInt().toFloat()
-                ))
-                dates.add(models[i].date)
+
+
+                if (invalidate){
+
+                    val modelDate = SimpleDateFormat("dd.MM.yyyy").parse(models[i].date)
+                    val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())
+
+
+                    if (abs(daysBetween(modelDate, cDate)) <= range){
+
+                        values.add(
+                            BarEntry(
+                                i.toFloat(), (models[i].averageCarRate).toInt().toFloat()
+                            )
+                        )
+
+                        dates.add(models[i].date)
+                    }
+
+                } else {
+                    values.add(
+                        BarEntry(
+                            i.toFloat(), (models[i].averageCarRate).toInt().toFloat()
+                        )
+                    )
+                    dates.add(models[i].date)
+                }
             }
+
+            textViewAll.text = values.size.toString()
 
             val chart = bottomView.findViewById<BarChart>(R.id.rate_chart)
             chart.setFitBars(true)
@@ -105,61 +176,90 @@ interface ChartsUtil : FragmentUtil {
 
             //chart.xAxis.textColor = Color.WHITE
             chart.xAxis.setDrawGridLines(false)
+            chart.xAxis.granularity = 1f
+            chart.xAxis.valueFormatter = IndexAxisValueFormatter(dates)
+            chart.xAxis.textColor = Color.WHITE
 
 
             //chart.axisLeft.textColor = Color.WHITE
             chart.axisLeft.isEnabled = true
             chart.axisLeft.setDrawGridLines(false)
+            chart.axisLeft.gridColor = Color.parseColor("#757575")
+            chart.axisLeft.textColor = Color.parseColor("#757575")
 
             chart.axisRight.isEnabled = false
-            chart.axisRight.textColor = Color.WHITE
 
 
             val barDataSet = BarDataSet(values, "Количество выполненных поездок в день")
 
-            barDataSet.valueTextColor = Color.parseColor("#2a2d43")
-            barDataSet.valueTextSize = 14f
-            /*
-            barDataSet.disableDashedLine()
-            barDataSet.lineWidth = 3f
-            barDataSet.setDrawFilled(true)
-            barDataSet.fillColor = Color.parseColor("#B15DFF")
-            barDataSet.setDrawHorizontalHighlightIndicator(false)
-
-             */
+            barDataSet.setDrawValues(false)
 
             val data = BarData(barDataSet)
             chart.data = data
             chart.invalidate()
 
-            //chart.animateY(500)
+            activity.runOnUiThread {
+                chart.animateY(500)
+                chart.animateX(200)
+            }
         }  else {
             bottomView.findViewById<BarChart>(R.id.rate_chart).visibility = View.GONE
         }
     }
 
-    fun showRoutesPerDayGraphic(database : AppDatabase, bottomView : View) {
+    fun showAverageSpeed(
+        database: AppDatabase, bottomView: View, activity: Activity,
+        invalidate: Boolean, range: Int = 0, textViewAll: TextView
+    ){
         val models = database.routesPerDayModel().getAll()
         if (!models.isNullOrEmpty()){
 
-            val values : ArrayList<Entry> = arrayListOf()
+            val values : ArrayList<BarEntry> = arrayListOf()
             val dates : ArrayList<String> = arrayListOf()
 
+            var topValue = 0.0.toDouble()
+
             for (i in models.indices){
-                values.add(
-                    Entry(
-                    i.toFloat(), (models[i].num).toInt().toFloat()
-                )
-                )
-                dates.add(models[i].date)
+
+
+                if (invalidate){
+
+                    val modelDate = SimpleDateFormat("dd.MM.yyyy").parse(models[i].date)
+                    val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())
+
+
+                    if (abs(daysBetween(modelDate, cDate)) <= range){
+
+                        values.add(
+                            BarEntry(
+                                i.toFloat(), (models[i].averageSpeed).toInt().toFloat()
+                            )
+                        )
+                        topValue+=models[i].averageSpeed
+                        dates.add(models[i].date)
+                    }
+
+                } else {
+                    values.add(
+                        BarEntry(
+                            i.toFloat(), (models[i].averageSpeed).toInt().toFloat()
+                        )
+                    )
+                    topValue+=models[i].averageSpeed
+                    dates.add(models[i].date)
+                }
             }
 
-            val chart = bottomView.findViewById<LineChart>(R.id.routes_chart)
-            chart.invalidate()
+            textViewAll.text = (topValue/values.size).toInt().toString()
+
+
+            val chart = bottomView.findViewById<BarChart>(R.id.speed_chart)
+            chart.setFitBars(true)
+            chart.description.isEnabled = false
+
 
             chart.setPinchZoom(false)
             chart.isDoubleTapToZoomEnabled = false
-            chart.description.isEnabled = false
 
             chart.legend.isEnabled = false
             chart.legend.textColor = Color.parseColor("#2a2d43")
@@ -167,12 +267,106 @@ interface ChartsUtil : FragmentUtil {
 
             //chart.xAxis.textColor = Color.WHITE
             chart.xAxis.setDrawGridLines(false)
-            chart.xAxis.valueFormatter = DayAxisValueFormatter(chart, dates)
+            chart.xAxis.granularity = 1f
+            chart.xAxis.valueFormatter = IndexAxisValueFormatter(dates)
+            chart.xAxis.textColor = Color.WHITE
 
 
             //chart.axisLeft.textColor = Color.WHITE
             chart.axisLeft.isEnabled = true
             chart.axisLeft.setDrawGridLines(false)
+            chart.axisLeft.gridColor = Color.parseColor("#757575")
+            chart.axisLeft.textColor = Color.parseColor("#757575")
+
+            chart.axisRight.isEnabled = false
+
+
+            val barDataSet = BarDataSet(values, "Количество выполненных поездок в день")
+
+            barDataSet.setDrawValues(false)
+
+            val data = BarData(barDataSet)
+            chart.data = data
+            chart.invalidate()
+
+            activity.runOnUiThread {
+                chart.animateY(500)
+                chart.animateX(200)
+            }
+        }  else {
+            bottomView.findViewById<BarChart>(R.id.rate_chart).visibility = View.GONE
+        }
+    }
+
+    fun showDistance(
+        database: AppDatabase, bottomView: View, activity: Activity,
+        invalidate: Boolean, range: Int = 0, textViewAll: TextView
+    ){
+
+        val models = database.routesPerDayModel().getAll()
+
+        if (!models.isNullOrEmpty()){
+
+            val values : ArrayList<Entry> = arrayListOf()
+            val dates : ArrayList<String> = arrayListOf()
+            var topValue = 0.0.toDouble()
+
+            for (i in models.indices){
+
+
+                if (invalidate){
+
+                    val modelDate = SimpleDateFormat("dd.MM.yyyy").parse(models[i].date)
+                    val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())
+
+
+                    if (abs(daysBetween(modelDate, cDate)) <= range){
+
+                        values.add(
+                            Entry(
+                                i.toFloat(), (models[i].distance).toInt().toFloat()
+                            )
+                        )
+
+                        topValue+=models[i].distance
+
+                        dates.add(models[i].date)
+                    }
+
+                } else {
+                    values.add(
+                        Entry(
+                            i.toFloat(), (models[i].distance).toInt().toFloat()
+                        )
+                    )
+                    topValue+=models[i].distance
+                    dates.add(models[i].date)
+                }
+            }
+
+            textViewAll.text = (topValue/values.size).toInt().toString()
+
+            val chart = bottomView.findViewById<LineChart>(R.id.distance_chart)
+
+            chart.invalidate()
+
+            chart.description.isEnabled = false
+
+            chart.legend.isEnabled = false
+            chart.legend.textColor = Color.parseColor("#2a2d43")
+            chart.legend.textSize = 14f
+
+            chart.xAxis.valueFormatter = IndexAxisValueFormatter(dates)
+            chart.xAxis.textColor = Color.WHITE
+            chart.xAxis.setDrawGridLines(false)
+            chart.xAxis.granularity = 1f
+
+
+            //chart.axisLeft.textColor = Color.WHITE
+            chart.axisLeft.isEnabled = true
+            chart.axisLeft.setDrawGridLines(true)
+            chart.axisLeft.gridColor = Color.parseColor("#757575")
+            chart.axisLeft.textColor = Color.parseColor("#757575")
 
             chart.axisRight.isEnabled = false
             chart.axisRight.textColor = Color.WHITE
@@ -187,17 +381,24 @@ interface ChartsUtil : FragmentUtil {
             lineDataSet.setDrawFilled(true)
             lineDataSet.fillColor = Color.parseColor("#B15DFF")
             lineDataSet.setDrawHorizontalHighlightIndicator(false)
+            lineDataSet.setDrawValues(false)
 
             val dataSets : ArrayList<ILineDataSet> = ArrayList()
             dataSets.add(lineDataSet)
 
             chart.data = LineData(dataSets)
+
+            activity.runOnUiThread {
+                chart.animateY(500)
+                chart.animateX(200)
+            }
+
         }  else {
-            bottomView.findViewById<LineChart>(R.id.routes_chart).visibility = View.GONE
+            bottomView.findViewById<LineChart>(R.id.distance_chart).visibility = View.GONE
         }
     }
 
-    fun showExpenses(database: AppDatabase, rootView : View){
+    fun showExpenses(database: AppDatabase, rootView: View){
         val staticVars = StaticVars()
         val mds = database.petrolDao().getAll()
         var rubExpenses = 0.0
@@ -208,11 +409,11 @@ interface ChartsUtil : FragmentUtil {
 
         for (m in mds){
             when (m.currency) {
-                staticVars.currencyValues[0] -> rubExpenses += m.amount*m.price
-                staticVars.currencyValues[1] -> grivnExpenses += m.amount*m.price
-                staticVars.currencyValues[2] -> dollarsExpenses += m.amount*m.price
-                staticVars.currencyValues[3] -> euroExpenses += m.amount*m.price
-                staticVars.currencyValues[4] -> poundsExpenses += m.amount*m.price
+                staticVars.currencyValues[0] -> rubExpenses += m.amount * m.price
+                staticVars.currencyValues[1] -> grivnExpenses += m.amount * m.price
+                staticVars.currencyValues[2] -> dollarsExpenses += m.amount * m.price
+                staticVars.currencyValues[3] -> euroExpenses += m.amount * m.price
+                staticVars.currencyValues[4] -> poundsExpenses += m.amount * m.price
             }
         }
 
@@ -246,15 +447,13 @@ interface ChartsUtil : FragmentUtil {
             rootView.findViewById<TextView>(R.id.in_pounds_text_view).visibility = View.GONE
         }
 
+        if (rubExpenses == 0.0 && grivnExpenses == 0.0 && dollarsExpenses == 0.0 && euroExpenses == 0.0 && poundsExpenses == 0.0)
+            rootView.findViewById<TextView>(R.id.fuel_name).visibility = View.GONE
+
     }
 
-    class DayAxisValueFormatter(private val chart: LineChart,
-                                private val dates : ArrayList<String>) : ValueFormatter() {
-
-
-        override fun getFormattedValue(value: Float): String {
-            return dates[value.toInt()].toString()
-        }
+    fun daysBetween(d1: Date, d2: Date): Long {
+        return ((d2.time - d1.time) / (1000 * 60 * 60 * 24))
     }
 
 }

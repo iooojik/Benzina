@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:layout_marginBottom="@dimen/bottom_navigation"
     tools:context="com.kirovcompany.bensina.ui.RouteProcess">
 
     <LinearLayout
@@ -210,6 +211,8 @@
 
 
         </LinearLayout>
+
+        <include layout="@layout/fuel_stats"/>
 
     </LinearLayout>
 
