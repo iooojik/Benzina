@@ -89,21 +89,6 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil{
         else R.layout.fragment_add_car_info
     }
 
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        //убираем клавиатуру, если нет фокуса на edit text
-        if (ev?.action === MotionEvent.ACTION_DOWN) {
-            val v: View? = currentFocus
-            if (v is EditText) {
-                v.clearFocus()
-                val imm: InputMethodManager =
-                        applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
-            }
-        }
-        return super.dispatchTouchEvent(ev)
-    }
-
     private fun checkDate() : Boolean{
         val endDate = SimpleDateFormat("dd.MM.yyyy").parse(staticVars.endDate)
         val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())

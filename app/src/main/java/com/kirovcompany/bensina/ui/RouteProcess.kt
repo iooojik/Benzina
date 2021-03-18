@@ -345,7 +345,6 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
             R.id.fab -> {
                 val bottomSheetDialog = BottomSheetPetrol(requireContext(), requireActivity(), this).bottomSheetDialog
                 bottomSheetDialog.show()
-                showExpenses(database, rootView)
             }
 
             R.id.last_week_routes -> {

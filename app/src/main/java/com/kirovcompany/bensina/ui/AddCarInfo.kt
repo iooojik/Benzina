@@ -70,6 +70,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         val models = mutableListOf<String>()
         for (model in tempModels)
             models.add(model.carBrand.toString())
+        models.sort()
         val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, models)
         carBrandField.setAdapter(adapter)
     }
