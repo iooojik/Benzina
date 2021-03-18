@@ -36,6 +36,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/price_text_view"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/eczar_regular"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
 
@@ -54,6 +55,7 @@
             android:id="@+id/amount_text_view"
             android:inputType="number"
             android:layout_width="match_parent"
+            android:fontFamily="@font/eczar_regular"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>

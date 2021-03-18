@@ -75,7 +75,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
         synchronized(this){
             if (!database.routesPerDayModel().getAll().isNullOrEmpty()){
                 if (!isUpdate)
-                rootView.findViewById<LinearLayout>(R.id.layout_stats).addView(
+                rootView.findViewById<LinearLayout>(R.id.statistics_layout).addView(
                         layoutInflater.inflate(R.layout.graphics_items, null)
                 )
                 showAverageSpeed(database, rootView)
@@ -84,7 +84,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
             }
             if (!database.petrolDao().getAll().isNullOrEmpty()){
                 if (!isUpdate)
-                rootView.findViewById<LinearLayout>(R.id.layout_stats).addView(
+                rootView.findViewById<LinearLayout>(R.id.statistics_layout).addView(
                         layoutInflater.inflate(R.layout.fuel_stats, null)
                 )
                 showExpenses(database, rootView)
@@ -265,7 +265,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                 if (checkPermissions()){
                     //запускаем сервис
                     startLocationService()
-
+                    database.routeProgressDao().deleteAll()
                     rootView.findViewById<LinearLayout>(R.id.layout_stats).removeView(btn)
                     prepareViews()
                     //получаем пройденную дистанцию

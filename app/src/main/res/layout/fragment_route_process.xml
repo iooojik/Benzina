@@ -5,12 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@drawable/rounded_corners"
     tools:context="com.kirovcompany.bensina.ui.RouteProcess">
-
-
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/blocks_margin"
-                    android:background="@color/colorWhite"
+                    android:background="@color/colorSecondary"
                     android:orientation="vertical"
                     android:padding="@dimen/fab_margin">
 
@@ -45,7 +40,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/elements_margin"
                         android:text="@string/speed"
-                        android:textColor="@color/colorBlack"
                         android:textSize="@dimen/blockNameTextSize" />
 
                     <LinearLayout
@@ -60,6 +54,7 @@
                             android:layout_marginEnd="@dimen/elements_margin"
                             android:layout_weight="1"
                             android:text="@string/_0_00"
+                            android:fontFamily="@font/eczar_regular"
                             android:textColor="@color/blockTextColor"
                             android:textSize="@dimen/blockTextSize" />
 
@@ -77,7 +72,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/blocks_margin"
                     android:layout_weight="1"
-                    android:background="@color/colorWhite"
+                    android:background="@color/colorSecondary"
                     android:orientation="vertical"
                     android:padding="@dimen/fab_margin">
 
@@ -86,7 +81,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/elements_margin"
                         android:text="@string/distance"
-                        android:textColor="@color/colorBlack"
                         android:textSize="@dimen/blockNameTextSize" />
 
                     <LinearLayout
@@ -101,6 +95,7 @@
                             android:layout_marginEnd="@dimen/elements_margin"
                             android:layout_weight="1"
                             android:text="@string/_0_00"
+                            android:fontFamily="@font/eczar_regular"
                             android:textColor="@color/blockTextColor"
                             android:textSize="@dimen/blockTextSize" />
 
@@ -124,8 +119,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/blocks_margin"
-                    android:background="@color/colorWhite"
                     android:orientation="vertical"
+                    android:background="@color/colorSecondary"
                     android:padding="@dimen/fab_margin">
 
                     <TextView
@@ -133,7 +128,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/elements_margin"
                         android:text="@string/route_time"
-                        android:textColor="@color/colorBlack"
                         android:textSize="@dimen/blockNameTextSize" />
 
                     <LinearLayout
@@ -148,6 +142,7 @@
                             android:layout_marginEnd="@dimen/elements_margin"
                             android:layout_weight="1"
                             android:text="@string/_00_00_00"
+                            android:fontFamily="@font/eczar_regular"
                             android:textColor="@color/blockTextColor"
                             android:textSize="@dimen/blockTextSize" />
 
@@ -160,8 +155,8 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/blocks_margin"
                     android:layout_weight="1"
-                    android:background="@color/colorWhite"
                     android:orientation="vertical"
+                    android:background="@color/colorSecondary"
                     android:padding="@dimen/fab_margin">
 
                     <TextView
@@ -169,7 +164,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/elements_margin"
                         android:text="@string/rate"
-                        android:textColor="@color/colorBlack"
                         android:textSize="@dimen/blockNameTextSize" />
 
                     <LinearLayout
@@ -184,6 +178,7 @@
                             android:layout_marginEnd="@dimen/elements_margin"
                             android:layout_weight="1"
                             android:text="@string/_0_00"
+                            android:fontFamily="@font/eczar_regular"
                             android:textColor="@color/blockTextColor"
                             android:textSize="@dimen/blockTextSize" />
 
@@ -197,15 +192,15 @@
                 </LinearLayout>
             </LinearLayout>
 
+
+
         </LinearLayout>
 
         <View
-            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_margin="@dimen/fab_margin"
-            android:background="?android:attr/listDivider" />
-
+            android:background="@color/green" />
 
         <LinearLayout
             android:id="@+id/statistics_layout"
