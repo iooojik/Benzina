@@ -1,5 +1,6 @@
 package com.kirovcompany.bensina.interfaces
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.util.Log
@@ -406,6 +407,7 @@ interface ChartsUtil : FragmentUtil {
         }
     }
 
+    @SuppressLint("CutPasteId")
     fun showExpenses(
         database: AppDatabase, rootView: View, activity: Activity,
         invalidate: Boolean, range: Int = 0
@@ -458,31 +460,59 @@ interface ChartsUtil : FragmentUtil {
 
 
         activity.runOnUiThread {
-            if (rubExpenses > 0.0) rootView.findViewById<TextView>(R.id.rub_expenses).text = roundDouble(rubExpenses)
+            if (rubExpenses > 0.0){
+                rootView.findViewById<TextView>(R.id.rub_expenses).visibility = View.VISIBLE
+                rootView.findViewById<TextView>(R.id.in_rubs_text_view).visibility = View.VISIBLE
+                rootView.findViewById<LinearLayout>(R.id.fuel_stats_layout).visibility = View.VISIBLE
+                rootView.findViewById<TextView>(R.id.rub_expenses).text = roundDouble(rubExpenses)
+            }
             else {
                 rootView.findViewById<TextView>(R.id.rub_expenses).visibility = View.GONE
                 rootView.findViewById<TextView>(R.id.in_rubs_text_view).visibility = View.GONE
             }
 
-            if (grivnExpenses > 0.0) rootView.findViewById<TextView>(R.id.grivn_expenses).text = roundDouble(grivnExpenses)
+            if (grivnExpenses > 0.0){
+                rootView.findViewById<TextView>(R.id.grivn_expenses).text = roundDouble(grivnExpenses)
+                rootView.findViewById<TextView>(R.id.grivn_expenses).visibility = View.VISIBLE
+                rootView.findViewById<TextView>(R.id.in_grivn_text_view).visibility = View.VISIBLE
+                rootView.findViewById<LinearLayout>(R.id.fuel_stats_layout).visibility = View.VISIBLE
+
+            }
             else {
                 rootView.findViewById<TextView>(R.id.grivn_expenses).visibility = View.GONE
                 rootView.findViewById<TextView>(R.id.in_grivn_text_view).visibility = View.GONE
             }
 
-            if (dollarsExpenses > 0.0) rootView.findViewById<TextView>(R.id.dollars_expenses).text = roundDouble(dollarsExpenses)
+            if (dollarsExpenses > 0.0){
+                rootView.findViewById<TextView>(R.id.dollars_expenses).visibility = View.VISIBLE
+                rootView.findViewById<TextView>(R.id.in_dollars_text_view).visibility = View.VISIBLE
+                rootView.findViewById<LinearLayout>(R.id.fuel_stats_layout).visibility = View.VISIBLE
+
+                rootView.findViewById<TextView>(R.id.dollars_expenses).text = roundDouble(dollarsExpenses)
+            }
             else {
                 rootView.findViewById<TextView>(R.id.dollars_expenses).visibility = View.GONE
                 rootView.findViewById<TextView>(R.id.in_dollars_text_view).visibility = View.GONE
             }
 
-            if (euroExpenses > 0.0) rootView.findViewById<TextView>(R.id.euro_expenses).text = roundDouble(euroExpenses)
+            if (euroExpenses > 0.0) {
+                rootView.findViewById<TextView>(R.id.euro_expenses).text = roundDouble(euroExpenses)
+                rootView.findViewById<TextView>(R.id.euro_expenses).visibility = View.VISIBLE
+                rootView.findViewById<TextView>(R.id.in_euro_text_view).visibility = View.VISIBLE
+                rootView.findViewById<LinearLayout>(R.id.fuel_stats_layout).visibility = View.VISIBLE
+
+            }
             else {
                 rootView.findViewById<TextView>(R.id.euro_expenses).visibility = View.GONE
                 rootView.findViewById<TextView>(R.id.in_euro_text_view).visibility = View.GONE
             }
 
-            if (poundsExpenses > 0.0) rootView.findViewById<TextView>(R.id.pounds_expenses).text = roundDouble(poundsExpenses)
+            if (poundsExpenses > 0.0){
+                rootView.findViewById<TextView>(R.id.pounds_expenses).text = roundDouble(poundsExpenses)
+                rootView.findViewById<TextView>(R.id.pounds_expenses).visibility = View.VISIBLE
+                rootView.findViewById<TextView>(R.id.in_pounds_text_view).visibility = View.VISIBLE
+                rootView.findViewById<LinearLayout>(R.id.fuel_stats_layout).visibility = View.VISIBLE
+            }
             else {
                 rootView.findViewById<TextView>(R.id.pounds_expenses).visibility = View.GONE
                 rootView.findViewById<TextView>(R.id.in_pounds_text_view).visibility = View.GONE
