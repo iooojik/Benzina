@@ -96,10 +96,8 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.go_next -> {
-                thread {
-                    //сохранение информации об авто
-                    saveCarInfo()
-                }
+                //сохранение информации об авто
+                saveCarInfo()
             }
         }
     }
@@ -115,8 +113,6 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
             val carEngineAmount = carEngineAmountField.text.toString()
             val carRate = carRateField.text.toString()
 
-
-
             val args = Bundle()
 
             val car = database.carModelDao().getLast()
@@ -131,18 +127,14 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
 
             saveCarInfo(carBrand, carModel, carYear, carOdometer, carEngineAmount, carRate)
 
-            requireActivity().runOnUiThread {
-                checkPermissions()
-                requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
-            }
+            checkPermissions()
+            requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
         } else {
             requireActivity().runOnUiThread {
                 Snackbar.make(rootView, requireActivity().resources.getString(R.string.not_all_fields), Snackbar.LENGTH_LONG).show()
             }
         }
-
-
 
     }
 
@@ -159,7 +151,9 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         )
         database.carModelDao().deleteAll()
         database.carModelDao().insert(carModelObj)
+        database.timerDao().deleteAll()
         database.timerDao().insert(TimerModel(null, 0))
+        database.serviceDao().deleteAll()
         database.serviceDao().insert(ServiceModel(null, false))
         saveBooleanToPrefs(staticVars.userAddedCar, true)
     }

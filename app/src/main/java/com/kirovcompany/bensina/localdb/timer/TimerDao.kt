@@ -7,7 +7,7 @@ interface TimerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(timerModel: TimerModel)
 
-    @Query("SELECT * FROM timermodel WHERE _id = 1")
+    @Query("SELECT * FROM timermodel ORDER BY _id DESC LIMIT 1")
     fun get() : TimerModel
 
     @Update
