@@ -13,6 +13,18 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/russian_locale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="russian" />
+
+        <Button
+            android:id="@+id/english_locale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="english" />
+
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -21,9 +33,11 @@
             android:src="@drawable/icon" />
 
         <TextView
+            android:id="@+id/hi_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/hello_text"
             android:textAlignment="center"
             android:textSize="20sp" />

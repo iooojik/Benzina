@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_margin="@dimen/fab_margin"
-            android:hint="Валюта">
+            android:hint="@string/currency">
 
             <AutoCompleteTextView
                 android:id="@+id/currency_text_view"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:hint="Цена за у.е.">
+            android:hint="@string/price">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/price_text_view"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:hint="Объём">
+        android:hint="@string/volume">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amount_text_view"

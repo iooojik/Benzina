@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Траты на бензин"
+        android:text="@string/spending_on_fuel"
         android:textSize="28sp" />
 
     <LinearLayout
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:text="В рублях:"
+            android:text="@string/in_rubs"
             android:textSize="18sp" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:text="В гривнах:"
+            android:text="@string/in_grivn"
             android:textSize="18sp" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:text="В фунтах:"
+            android:text="@string/in_pounds"
             android:textSize="18sp" />
 
         <TextView
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:text="В евро:"
+            android:text="@string/in_euro"
             android:textSize="18sp" />
 
         <TextView
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:text="В долларах:"
+            android:text="@string/in_dollars"
             android:textSize="18sp" />
 
         <TextView
@@ -159,28 +159,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/custom_buttons_margin"
-            android:text="7 дней" />
+            android:text="@string/_7days" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/last_month_fuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/custom_buttons_margin"
-            android:text="30 дней" />
+            android:text="@string/_30_days" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/last_half_year_fuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/custom_buttons_margin"
-            android:text="180 дней" />
+            android:text="@string/_180_days" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/last_year_fuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/custom_buttons_margin"
-            android:text="365 дней" />
+            android:text="@string/_365_days" />
 
     </LinearLayout>
 

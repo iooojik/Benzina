@@ -103,7 +103,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
             }
         } else {
             requireActivity().runOnUiThread {
-                Snackbar.make(rootView, "Не все поля заполнены", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(rootView, requireActivity().resources.getString(R.string.not_all_fields), Snackbar.LENGTH_LONG).show()
             }
         }
 

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Bensina</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="car_brand">Марка машины</string>
     <string name="car_model">Модель машины</string>
     <string name="car_year">Год машины</string>
@@ -23,8 +22,26 @@
     <string name="stats">Статистика</string>
     <string name="average_speed">Средняя скорость:</string>
     <string name="look_stats_button">Посмотреть статистику</string>
-    <string name="hello_text">Приложение Benzina поможет отслеживать за расходами топлива твоего авто.</string>
+    <string name="hello_text">The Benzina app will help you track your car\'s fuel consumption.</string>
     <string name="autoAboutInfo">Информация об авто</string>
     <string name="add_car_info_hint">Для точного расчета автомобиля нужно узнать смешанный расход в интернете, указав характеристики вашего автомобиля, и найти графу смешанного расхода.</string>
     <string name="_00_00_00">00:00:00</string>
+    <string name="currency">Валюта</string>
+    <string name="price">Цена за у.е.</string>
+    <string name="volume">Объём</string>
+    <string name="spending_on_fuel">Траты на бензин</string>
+    <string name="in_rubs">В рублях:</string>
+    <string name="in_grivn">В гривнах:</string>
+    <string name="in_pounds">В фунтах:</string>
+    <string name="in_euro">В евро:</string>
+    <string name="in_dollars">В долларах:</string>
+    <string name="_7days">7 дней</string>
+    <string name="_30_days">30 дней</string>
+    <string name="_180_days">180 дней</string>
+    <string name="_365_days">365 дней</string>
+    <string name="num_of_trips">Количество поездок</string>
+    <string name="fuel_consumption">Расход топлива</string>
+    <string name="distance_covered">Пройденная дистанция</string>
+    <string name="added">Добавлено</string>
+    <string name="not_all_fields">Не все поля заполнены</string>
 </resources>

@@ -1,21 +1,15 @@
 package com.kirovcompany.bensina
 
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.interfaces.PreferencesUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
-import com.kirovcompany.bensina.ui.BottomSheetPetrol
 import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,18 +24,35 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         setContentView(R.layout.activity_main)
         initialization()
     }
 
     private fun initialization(){
         preferences = getSharedPreferences(this)
-
+        changeLocale()
         if (checkDate() && !preferences.getBoolean(staticVars.prefFirstStartup, true)){
             finish()
         }
         preferences.edit().putBoolean(staticVars.prefFirstStartup, false).apply()
         setupNavigation()
+    }
+
+    private fun changeLocale(){
+        val locale = Locale(preferences.getString(staticVars.preferencesLanguage, "ru").toString())
+
+        Locale.setDefault(locale)
+        // Create a new configuration object
+        val config = Configuration()
+        // Set the locale of the new configuration
+        config.locale = locale
+        // Update the configuration of the Application context
+        resources.updateConfiguration(
+                config,
+                resources.displayMetrics
+        )
     }
 
     private fun goToStartFragment(){

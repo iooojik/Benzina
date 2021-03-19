@@ -7,4 +7,5 @@ class StaticVars {
     val currencyValues = listOf("Р", "₴", "$", "€", "£")
     val endDate = "19.03.2021"
     val prefFirstStartup = "first"
+    val preferencesLanguage = "LANGUAGE"
 }

@@ -50,7 +50,7 @@ class BottomSheetPetrol (
         if (price > 0 && amount > 0 && currency.isNotBlank()){
             database.petrolDao().insert(PetrolModel(null, currency, price, amount, getCurrentDate()))
             activity.runOnUiThread { fragment.showStatistics(true) }
-            Toast.makeText(context, "Добавлено", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, activity.resources.getString(R.string.added), Toast.LENGTH_LONG).show()
             bottomSheetDialog.hide()
         }
     }

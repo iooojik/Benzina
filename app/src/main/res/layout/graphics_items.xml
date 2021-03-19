@@ -25,15 +25,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fab_margin"
                 android:layout_marginEnd="@dimen/fab_margin"
-                android:text="Количество поездок"
+                android:text="@string/num_of_trips"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/routes_count"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
                 android:textSize="18sp"
                 android:textColor="@color/blue"
                 android:layout_marginEnd="@dimen/fab_margin"
@@ -60,28 +59,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="7 дней"/>
+                android:text="@string/_7days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_month_routes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="30 дней"/>
+                android:text="@string/_30_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_half_year_routes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="180 дней"/>
+                android:text="@string/_180_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_year_routes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="365 дней"/>
+                android:text="@string/_365_days"/>
 
         </LinearLayout>
 
@@ -102,16 +101,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fab_margin"
                 android:layout_marginEnd="@dimen/fab_margin"
-                android:text="Расход топлива"
+                android:text="@string/fuel_consumption"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/rates_count"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/blue"
                 android:textSize="18sp" />
@@ -135,28 +133,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="7 дней"/>
+                android:text="@string/_7days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_month_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="30 дней"/>
+                android:text="@string/_30_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_half_year_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="180 дней"/>
+                android:text="@string/_180_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_year_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="365 дней"/>
+                android:text="@string/_365_days"/>
 
         </LinearLayout>
 
@@ -177,16 +175,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fab_margin"
                 android:layout_marginEnd="@dimen/fab_margin"
-                android:text="Средняя скорость"
+                android:text="@string/average_speed"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/speed_count"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/blue"
                 android:textSize="18sp" />
@@ -211,28 +208,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="7 дней"/>
+                android:text="@string/_7days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_month_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="30 дней"/>
+                android:text="@string/_30_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_half_year_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="180 дней"/>
+                android:text="@string/_180_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_year_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="365 дней"/>
+                android:text="@string/_365_days"/>
 
         </LinearLayout>
 
@@ -253,16 +250,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fab_margin"
                 android:layout_marginEnd="@dimen/fab_margin"
-                android:text="Пройденная дистанция"
+                android:text="@string/distance_covered"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/distance_count"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:text="0"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/blue"
                 android:textSize="18sp" />
@@ -287,28 +283,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="7 дней"/>
+                android:text="@string/_7days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_month_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="30 дней"/>
+                android:text="@string/_30_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_half_year_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="180 дней"/>
+                android:text="@string/_180_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/last_year_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/custom_buttons_margin"
-                android:text="365 дней"/>
+                android:text="@string/_365_days"/>
 
         </LinearLayout>
 
