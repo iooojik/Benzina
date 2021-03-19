@@ -45,4 +45,6 @@
     <string name="distance_covered">Пройденная дистанция</string>
     <string name="added">Добавлено</string>
     <string name="not_all_fields">Не все поля заполнены</string>
+    <string name="change_lang">Выбрать язык</string>
+
 </resources>

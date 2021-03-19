@@ -13,18 +13,6 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/russian_locale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="russian" />
-
-        <Button
-            android:id="@+id/english_locale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="english" />
-
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -50,8 +38,20 @@
         android:layout_marginBottom="@dimen/fab_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/green"
         android:textColor="@color/colorWhite"
         android:text="@string/next" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/select_lang"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:text="@string/change_lang" />
 
 
 </FrameLayout>

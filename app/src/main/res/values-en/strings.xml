@@ -45,4 +45,6 @@
     <string name="distance_covered">Distance covered</string>
     <string name="added">Added</string>
     <string name="not_all_fields">Not all fields filled</string>
+    <string name="change_lang">Change language</string>
+
 </resources>
