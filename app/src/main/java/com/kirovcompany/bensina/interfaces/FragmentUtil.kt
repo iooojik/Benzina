@@ -13,6 +13,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.kirovcompany.bensina.LocaleHelper
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.ui.BottomSheetPetrol
@@ -50,6 +51,11 @@ interface FragmentUtil : PreferencesUtil {
 
     fun roundDouble(double : Double) : String{
         return String.format("%.2f", double)
+    }
+
+    fun setContextLocale(lang : String, ctx: Context) : Context{
+        val context = LocaleHelper.setLocale(ctx, lang)
+        return context
     }
 
     fun initViews()

@@ -1,5 +1,6 @@
 package com.kirovcompany.bensina
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
@@ -27,11 +28,21 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
     private lateinit var preferences : SharedPreferences
     private val staticVars = StaticVars()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        preferences = getSharedPreferences(this)
-        changeLocale()
 
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(base!!, "ru"))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        preferences = getSharedPreferences(this)
+
+        if (preferences.getInt(staticVars.firstStartUP, 0) == 0){
+            recreate()
+            preferences.edit().putInt(staticVars.firstStartUP, 1).apply()
+        }
+        else preferences.edit().putInt(staticVars.firstStartUP, 0).apply()
+
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initialization()
     }
@@ -61,20 +72,6 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
         } else showInterstitialAd(applicationContext, this, false)
 
-    }
-
-    private fun changeLocale(){
-        val locale = Locale(preferences.getString(staticVars.preferencesLanguage, "ru").toString())
-        Log.e("lang", locale.toLanguageTag())
-
-        Locale.setDefault(locale)
-
-        val config = this.resources.configuration
-
-        config.locale = locale
-
-        applicationContext.createConfigurationContext(config)
-        this.resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun goToStartFragment(){

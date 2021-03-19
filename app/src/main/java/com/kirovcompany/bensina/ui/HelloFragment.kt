@@ -15,12 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.kirovcompany.bensina.LocaleHelper
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
+import com.kirovcompany.bensina.interfaces.FragmentUtil
 import java.util.*
 
 
-class HelloFragment : Fragment(), View.OnClickListener {
+class HelloFragment : Fragment(), View.OnClickListener, FragmentUtil {
 
     private lateinit var rootView : View
     private lateinit var preferences: SharedPreferences
@@ -36,6 +38,7 @@ class HelloFragment : Fragment(), View.OnClickListener {
 
         if (!preferences.getBoolean(StaticVars().preferencesLanguageSelected, false))
             selectLang()
+
         return rootView
     }
 
@@ -72,12 +75,20 @@ class HelloFragment : Fragment(), View.OnClickListener {
 
     private fun setGBLanguage(){
         preferences.edit().putString(StaticVars().preferencesLanguage, "en").apply()
+        LocaleHelper.onAttach(requireActivity().applicationContext, "en")
+        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
         requireActivity().recreate()
     }
 
     private fun setRussianLanguage(){
         preferences.edit().putString(StaticVars().preferencesLanguage, "ru").apply()
+        LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
+        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
         requireActivity().recreate()
+    }
+
+    override fun initViews() {
+
     }
 
 }

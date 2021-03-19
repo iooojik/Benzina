@@ -22,7 +22,7 @@
     <string name="stats">Статистика</string>
     <string name="average_speed">Средняя скорость:</string>
     <string name="look_stats_button">Посмотреть статистику</string>
-    <string name="hello_text">The Benzina app will help you track your car\'s fuel consumption.</string>
+    <string name="hello_text">Приложение Benzina поможет отслеживать за расходами топлива твоего авто.</string>
     <string name="autoAboutInfo">Информация об авто</string>
     <string name="add_car_info_hint">Для точного расчета автомобиля нужно узнать смешанный расход в интернете, указав характеристики вашего автомобиля, и найти графу смешанного расхода.</string>
     <string name="_00_00_00">00:00:00</string>

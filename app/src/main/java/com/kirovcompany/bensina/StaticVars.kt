@@ -11,4 +11,5 @@ class StaticVars {
     val adPetrolNum = "AD PETROL"
     val videoAfterFuelAdId = "ca-app-pub-4089170244903019/4487160257"
     val videoOnStartUp = "ca-app-pub-4089170244903019/8531536415"
+    val firstStartUP = "FIRST START UP"
 }

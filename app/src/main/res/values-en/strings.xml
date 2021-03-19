@@ -11,28 +11,28 @@
     <string name="add_fuel">Аdd fuel</string>
     <string name="add">Add</string>
     <string name="speed">Speed</string>
-    <string name="kmh">km/h</string>
+    <string name="kmh">K/h</string>
     <string name="liter">Liter</string>
     <string name="rate">Rate</string>
     <string name="_0_00">0.00</string>
-    <string name="distance">Distance</string>
-    <string name="km">Kilometers</string>
+    <string name="distance">Distance </string>
+    <string name="km">Km</string>
     <string name="route_time">Route time </string>
     <string name="start_route">Start route</string>
     <string name="end_route">End route </string>
     <string name="stats">Statistics </string>
-    <string name="average_speed">Average speed</string>
+    <string name="average_speed">Average speed:</string>
     <string name="look_stats_button"> view statistics </string>
     <string name="hello_text">The Benzina app will help you track your car\'s fuel consumption.</string>
-    <string name="autoAboutInfo">Car information</string>
+    <string name="autoAboutInfo">Car information </string>
     <string name="add_car_info_hint">To calculate the car accurately, you need to find out the mixed flow rate on the Internet, specifying the characteristics of your car, and find the mixed flow graph.</string>
     <string name="_00_00_00">00:00:00</string>
-    <string name="currency">Currency</string>
+    <string name="currency">Сurrency</string>
     <string name="price">Price</string>
     <string name="volume">Volume</string>
-    <string name="spending_on_fuel">pending on fuel</string>
+    <string name="spending_on_fuel">pending on fuel </string>
     <string name="in_rubs">In rubles:</string>
-    <string name="in_grivn">In hryvnias:</string>
+    <string name="in_grivn">In hryvnia:</string>
     <string name="in_pounds">In pounds:</string>
     <string name="in_euro">In euro:</string>
     <string name="in_dollars">In dollars:</string>
@@ -46,5 +46,4 @@
     <string name="added">Added</string>
     <string name="not_all_fields">Not all fields filled</string>
     <string name="change_lang">Change language</string>
-
 </resources>
