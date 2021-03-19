@@ -23,6 +23,7 @@ class LocationService : Service(), ServiceUtil {
     private val staticVars = StaticVars()
     private var prevLocation = MyLocationListener.imHere
     private var tempRate = 0.0.toDouble()
+    private var tempDistance = 0.0.toDouble()
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -30,9 +31,17 @@ class LocationService : Service(), ServiceUtil {
 
     override fun onCreate() {
         super.onCreate()
+        MyLocationListener.setUpLocationListener(applicationContext)
         database = getAppDatabase(applicationContext)
+
+        if (!database.routeProgressDao().getAll().isNullOrEmpty()) {
+            tempDistance = database.routeProgressDao().getLast().distance.toDouble()
+            tempRate = database.routeProgressDao().getLast().carRate.toDouble()
+        }
+
         prevLocation = MyLocationListener.imHere
-        running = database.serviceDao().get().status!!
+        running = database.serviceDao().get().status
+
         try {
             setTimer()
             setLocationListener()
@@ -55,6 +64,7 @@ class LocationService : Service(), ServiceUtil {
 
                         //подсчёт дистанции от предыдущей точки
                         val distance = calcDistance(MyLocationListener.imHere, prevLocation)
+                        tempDistance += distance
 
                         //получение скорости движения
                         val speed = (MyLocationListener.imHere?.speed!! *3600/1000).toString()
@@ -68,7 +78,8 @@ class LocationService : Service(), ServiceUtil {
 
                         tempRate += carRate
 
-                        Log.e("ttt", "speed $speed rate $tempRate distance $distance")
+                        Log.e("ttt", "speed $speed rate $tempRate distance $tempDistance " +
+                                "coordinates ${MyLocationListener.imHere?.longitude} ${MyLocationListener.imHere?.latitude}")
 
                         database
                             .routeProgressDao()
@@ -76,7 +87,7 @@ class LocationService : Service(), ServiceUtil {
                                 RouteProgressModel(
                                     null,
                                     speed,
-                                    distance.toString(),
+                                    tempDistance.toString(),
                                     tempRate.toString()
                                 )
                             )
@@ -113,9 +124,9 @@ class LocationService : Service(), ServiceUtil {
 
     private fun getAdditionalRate(speed : Double) : Double{
         return if (speed > 0 && speed <= 40)
-            3.0
+            +3.0
         else if (speed > 40 && speed <= 70)
-            2.0
+            +2.0
         else if (speed > 70 && speed <= 80)
             0.0
         else if (speed > 80 && speed <= 120)

@@ -129,6 +129,7 @@ interface ChartsUtil : FragmentUtil {
 
             val values : ArrayList<BarEntry> = arrayListOf()
             val dates : ArrayList<String> = arrayListOf()
+            var topVal = 0.0.toDouble()
 
             for (i in models.indices){
 
@@ -147,7 +148,9 @@ interface ChartsUtil : FragmentUtil {
                             )
                         )
 
+                        topVal += models[i].averageCarRate
                         dates.add(models[i].date)
+
                     }
 
                 } else {
@@ -156,11 +159,13 @@ interface ChartsUtil : FragmentUtil {
                             i.toFloat(), (models[i].averageCarRate).toInt().toFloat()
                         )
                     )
+                    topVal += models[i].averageCarRate
                     dates.add(models[i].date)
                 }
             }
 
-            textViewAll.text = values.size.toString()
+
+            textViewAll.text = roundDouble(topVal).toString()
 
             val chart = bottomView.findViewById<BarChart>(R.id.rate_chart)
             chart.setFitBars(true)
