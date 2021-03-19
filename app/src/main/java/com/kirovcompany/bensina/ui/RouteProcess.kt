@@ -4,17 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -26,7 +23,6 @@ import com.kirovcompany.bensina.interfaces.ChartsUtil
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.routesperday.RoutesPerDayModel
-import com.kirovcompany.bensina.localdb.service.ServiceModel
 import com.kirovcompany.bensina.service.LocationService
 
 
@@ -263,15 +259,8 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
     }
 
     private fun calcCarRate() : Double{
-        val mds = database.routeProgressDao().getAll()
-        var rate = 0.0
-        for (m in mds){
-            rate += m.carRate.toDouble()
-        }
-        rate /= mds.size
-        if (rate.isNaN())
-            rate = 0.0
-        return rate
+        val mds = database.routeProgressDao().getLast()
+        return mds.carRate.toDouble()
     }
 
     private fun calcCarSpeed() : Double{

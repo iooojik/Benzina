@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:fontFamily="@font/eczar_regular"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,7 +53,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amount_text_view"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_width="match_parent"
             android:fontFamily="@font/eczar_regular"
             android:layout_height="wrap_content" />
