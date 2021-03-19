@@ -36,10 +36,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
     private fun initialization(){
         preferences = getSharedPreferences(this)
         changeLocale()
-        if (checkDate() && !preferences.getBoolean(staticVars.prefFirstStartup, true)){
-            finish()
-        }
-        preferences.edit().putBoolean(staticVars.prefFirstStartup, false).apply()
+
         setupNavigation()
 
         showAd()
@@ -123,12 +120,6 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
         return if (getBooleanValueFalse(preferences, staticVars.userAddedCar))
             R.layout.fragment_route_process
         else R.layout.fragment_add_car_info
-    }
-
-    private fun checkDate() : Boolean{
-        val endDate = SimpleDateFormat("dd.MM.yyyy").parse(staticVars.endDate)
-        val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())
-        return abs(daysBetween(cDate, endDate)) > 0
     }
 
     private fun daysBetween(d1: Date, d2: Date): Long {

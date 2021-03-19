@@ -11,19 +11,19 @@ class CarModel(
     val id : Long? = null,
 
     @ColumnInfo(name = "car_brand")
-    var carBrand : String? = null,
+    var carBrand : String,
 
     @ColumnInfo(name = "car_model")
-    var carModel : String? = null,
+    var carModel : String,
 
     @ColumnInfo(name = "car_year")
-    var carYear : String? = null,
+    var carYear : String,
 
     @ColumnInfo(name = "car_odometer")
-    var carOdometer : String? = null,
+    var carOdometer : String,
 
     @ColumnInfo(name = "car_engine_amount")
-    var carEngineAmount : String? = null,
+    var carEngineAmount : String,
 
     @ColumnInfo(name = "car_rate")
     var carRate : String

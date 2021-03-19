@@ -19,7 +19,11 @@
         android:id="@+id/navigation_routeProcess"
         android:name="com.kirovcompany.bensina.ui.RouteProcess"
         android:label="fragment_route_process"
-        tools:layout="@layout/fragment_route_process" />
+        tools:layout="@layout/fragment_route_process" >
+        <action
+            android:id="@+id/action_navigation_routeProcess_to_navigation_addCarInfo"
+            app:destination="@id/navigation_addCarInfo" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_helloFragment"
         android:name="com.kirovcompany.bensina.ui.HelloFragment"

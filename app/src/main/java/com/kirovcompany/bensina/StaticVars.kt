@@ -6,7 +6,6 @@ class StaticVars {
     val locationDelay = 3000.toLong()
     val currencyValues = listOf("Р", "₴", "$", "€", "£")
     val endDate = "19.03.2021"
-    val prefFirstStartup = "first"
     val preferencesLanguage = "LANGUAGE"
     val preferencesLanguageSelected = "LANGUAGE SELECTED"
     val adPetrolNum = "AD PETROL"

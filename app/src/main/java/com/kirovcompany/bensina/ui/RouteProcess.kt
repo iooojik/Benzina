@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -19,8 +20,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.ChartsUtil
@@ -80,6 +83,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
             requireActivity(),
             this
         )
+        rootView.findViewById<ImageView>(R.id.change_params).setOnClickListener(this)
         getStatus()
     }
 
@@ -335,6 +339,21 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
     override fun onClick(v: View?) {
         when(v!!.id){
+            
+            R.id.change_params -> {
+                if (!running){
+                    val args = Bundle()
+                    Log.e("tt", running.toString())
+
+                    args.putBoolean("update", true)
+                    requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_addCarInfo, args)
+                } else {
+                    Toast.makeText(requireContext(),
+                            "Пожалуйста, завершите запись, чтобы изменить параметры машины", Toast.LENGTH_LONG).show()
+                }
+
+            }
+            
             R.id.stop_button -> {
                 //изменяем статус работы сервиса
                 running = false

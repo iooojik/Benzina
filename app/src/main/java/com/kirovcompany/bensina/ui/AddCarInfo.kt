@@ -61,7 +61,25 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         database.timerDao().deleteAll()
         database.routeProgressDao().deleteAll()
 
+        val args = arguments
+        if (args != null){
+            val state = args.getBoolean("update")
+            if (state){
+                changeViewsValues()
+            }
+        }
+
         setCarModels()
+    }
+
+    private fun changeViewsValues() {
+        val car = database.carModelDao().getLast()
+        carBrandField.setText(car.carBrand)
+        carModelField.setText(car.carModel)
+        carYearField.setText(car.carYear)
+        carRateField.setText(car.carRate)
+        carOdometerField.setText(car.carOdometer)
+        carEngineAmountField.setText(car.carEngineAmount)
     }
 
     private fun setCarModels() {
@@ -96,16 +114,35 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
             val carOdometer = carOdometerField.text.toString()
             val carEngineAmount = carEngineAmountField.text.toString()
             val carRate = carRateField.text.toString()
-        saveCarInfo(carBrand, carModel, carYear, carOdometer, carEngineAmount, carRate)
+
+
+
+            val args = Bundle()
+
+            val car = database.carModelDao().getLast()
+
+            if (args != null){
+                if (args.getBoolean("update") && carModelField.text.toString() != car.carModel){
+                    database.petrolDao().deleteAll()
+                    database.routesPerDayModel().deleteAll()
+                    database.routeProgressDao().deleteAll()
+                }
+            }
+
+            saveCarInfo(carBrand, carModel, carYear, carOdometer, carEngineAmount, carRate)
+
             requireActivity().runOnUiThread {
                 checkPermissions()
                 requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
             }
+
         } else {
             requireActivity().runOnUiThread {
                 Snackbar.make(rootView, requireActivity().resources.getString(R.string.not_all_fields), Snackbar.LENGTH_LONG).show()
             }
         }
+
+
 
     }
 
