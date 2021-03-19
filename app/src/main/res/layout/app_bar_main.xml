@@ -11,17 +11,4 @@
         android:layout_height="match_parent"
         />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/green"
-        android:textColor="@color/colorWhite"
-        android:text="@string/add_fuel"
-        app:iconTint="@color/colorWhite"
-        app:icon="@drawable/baseline_local_gas_station_24"/>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

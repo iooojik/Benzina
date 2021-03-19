@@ -2,10 +2,18 @@ package com.kirovcompany.bensina.interfaces
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.ui.BottomSheetPetrol
 import com.kirovcompany.bensina.ui.RouteProcess
@@ -45,5 +53,7 @@ interface FragmentUtil : PreferencesUtil {
     }
 
     fun initViews()
+
+
 
 }

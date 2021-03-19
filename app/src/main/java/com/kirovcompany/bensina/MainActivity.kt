@@ -3,10 +3,15 @@ package com.kirovcompany.bensina
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.kirovcompany.bensina.interfaces.AdUtil
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.interfaces.PreferencesUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
@@ -15,17 +20,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+
 @Suppress("DEPRECATION", "SENSELESS_COMPARISON", "IMPLICIT_BOXING_IN_IDENTITY_EQUALS")
-class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil{
+class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     private lateinit var preferences : SharedPreferences
     private val staticVars = StaticVars()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
         setContentView(R.layout.activity_main)
         initialization()
     }
@@ -38,6 +41,28 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil{
         }
         preferences.edit().putBoolean(staticVars.prefFirstStartup, false).apply()
         setupNavigation()
+
+        showAd()
+
+    }
+
+    private fun showAd(){
+        MobileAds.initialize(this) {}
+        //показываем баннер
+        val mAdView = findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
+        //показываем видео-рекламу
+        val database = AppDatabase.getAppDataBase(applicationContext)
+
+        if (database?.serviceDao()?.get() != null){
+
+            if (!database.serviceDao().get().status)
+                showInterstitialAd(applicationContext, this, false)
+
+        } else showInterstitialAd(applicationContext, this, false)
+
     }
 
     private fun changeLocale(){
@@ -69,7 +94,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil{
 
                     val running = database.serviceDao().get().status
 
-                    if (running == true) {
+                    if (running) {
 
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 

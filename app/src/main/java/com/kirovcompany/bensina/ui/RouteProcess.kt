@@ -263,7 +263,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
     private fun restartService(intent: Intent){
         thread {
             requireActivity().stopService(intent)
-            Thread.sleep(6000)
+            Thread.sleep(2*staticVars.locationDelay)
             requireActivity().startService(intent)
         }
 
@@ -314,8 +314,11 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
     private fun calcCarRate() : Double{
         //последняя запись - общий расход
-        val mds = database.routeProgressDao().getLast()
-        return mds.carRate.toDouble()
+        return if (database.routeProgressDao().getLast() == null) 0.0
+        else {
+            val mds = database.routeProgressDao().getLast()
+            mds.carRate.toDouble()
+        }
     }
 
     private fun calcCarSpeed() : Double{
@@ -349,7 +352,9 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                     //увеличиваем количество маршрутов в день
                     var routeCounter = database.routesPerDayModel().getByDate(getCurrentDate())
 
-                    val distance = database.routeProgressDao().getLast().distance.toDouble()
+                    val distance : Double = if (database.routeProgressDao().getLast() == null){
+                        0.0
+                    } else database.routeProgressDao().getLast().distance.toDouble()
 
                     if (routeCounter == null) {
                         routeCounter = RoutesPerDayModel(

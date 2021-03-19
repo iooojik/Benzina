@@ -2,14 +2,22 @@ package com.kirovcompany.bensina.ui
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.kirovcompany.bensina.MainActivity
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
+import com.kirovcompany.bensina.interfaces.AdUtil
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.petrol.PetrolModel
@@ -18,12 +26,13 @@ class BottomSheetPetrol (
     private val context: Context,
     private val activity: Activity,
     private val fragment: RouteProcess
-) : View.OnClickListener, FragmentUtil{
+) : View.OnClickListener, FragmentUtil, AdUtil{
 
     private val bottomView : View = activity.layoutInflater.inflate(R.layout.bottom_sheet_petrol, null)
     val bottomSheetDialog : BottomSheetDialog = BottomSheetDialog(context)
     private val database : AppDatabase = AppDatabase.getAppDataBase(context)!!
     private val staticVars = StaticVars()
+    private val preferences = activity.getSharedPreferences(staticVars.preferencesName, Context.MODE_PRIVATE)
 
     init {
         //"подготовка" bottomSheetDialog
@@ -36,6 +45,10 @@ class BottomSheetPetrol (
         val adapter = ArrayAdapter(context, R.layout.dropdown_item, staticVars.currencyValues)
         bottomView.findViewById<AutoCompleteTextView>(R.id.currency_text_view).setAdapter(adapter)
         bottomView.findViewById<Button>(R.id.add_button).setOnClickListener(this)
+        if (preferences.getInt(staticVars.adPetrolNum, 0) % 2 != 0){
+            showInterstitialAd(context, activity, true)
+            preferences.edit().putInt(staticVars.adPetrolNum, 0).apply()
+        } else preferences.edit().putInt(staticVars.adPetrolNum, preferences.getInt(staticVars.adPetrolNum, 0)  + 1).apply()
     }
 
     override fun onClick(v: View?) {
@@ -78,6 +91,7 @@ class BottomSheetPetrol (
     override fun initViews() {
 
     }
+
 
 
 }

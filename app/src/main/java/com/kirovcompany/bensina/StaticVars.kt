@@ -8,4 +8,7 @@ class StaticVars {
     val endDate = "19.03.2021"
     val prefFirstStartup = "first"
     val preferencesLanguage = "LANGUAGE"
+    val adPetrolNum = "AD PETROL"
+    val videoAfterFuelAdId = "ca-app-pub-4089170244903019/4487160257"
+    val videoOnStartUp = "ca-app-pub-4089170244903019/8531536415"
 }
