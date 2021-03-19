@@ -353,7 +353,7 @@ interface ChartsUtil : FragmentUtil {
                 }
             }
 
-            textViewAll.text = (topValue/values.size).toInt().toString()
+            textViewAll.text = roundDouble(topValue).toString()
 
             val chart = bottomView.findViewById<LineChart>(R.id.distance_chart)
 

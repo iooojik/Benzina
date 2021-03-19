@@ -356,6 +356,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                         0.0
                     } else database.routeProgressDao().getLast().distance.toDouble()
 
+
                     if (routeCounter == null) {
                         routeCounter = RoutesPerDayModel(
                             null,
@@ -378,12 +379,15 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                             routeCounter.averageSpeed =
                                 (routeCounter.averageSpeed + calcCarSpeed()) / 2.0
 
+                        routeCounter.distance = routeCounter.distance + database.routeProgressDao().getLast().distance.toDouble()
+
                         database.routesPerDayModel().update(routeCounter)
 
                     }
 
                     requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
                 }
+
             }
 
             R.id.start_button -> {
