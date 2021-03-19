@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kirovcompany.bensina.MainActivity
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
+import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.petrol.PetrolModel
 
@@ -17,7 +18,7 @@ class BottomSheetPetrol (
     private val context: Context,
     private val activity: Activity,
     private val fragment: RouteProcess
-) : View.OnClickListener{
+) : View.OnClickListener, FragmentUtil{
 
     private val bottomView : View = activity.layoutInflater.inflate(R.layout.bottom_sheet_petrol, null)
     val bottomSheetDialog : BottomSheetDialog = BottomSheetDialog(context)
@@ -47,7 +48,7 @@ class BottomSheetPetrol (
 
     private fun savePetrolInfo(currency: String, price: Double, amount: Double) {
         if (price > 0 && amount > 0 && currency.isNotBlank()){
-            database.petrolDao().insert(PetrolModel(null, currency, price, amount))
+            database.petrolDao().insert(PetrolModel(null, currency, price, amount, getCurrentDate()))
             activity.runOnUiThread { fragment.showStatistics(true) }
             Toast.makeText(context, "Добавлено", Toast.LENGTH_LONG).show()
             bottomSheetDialog.hide()
@@ -72,6 +73,10 @@ class BottomSheetPetrol (
 
     private fun getCurrency(): String {
         return bottomView.findViewById<AutoCompleteTextView>(R.id.currency_text_view).text.toString()
+    }
+
+    override fun initViews() {
+
     }
 
 

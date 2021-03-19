@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.kirovcompany.bensina.localdb.routesperday.RoutesPerDayModel
 
 @Dao
 interface PetrolDao {
@@ -15,4 +16,7 @@ interface PetrolDao {
 
     @Query("DELETE FROM petrolmodel")
     fun deleteAll()
+
+    @Query("SELECT * FROM petrolmodel WHERE date = :date")
+    fun getByDate(date : String) : List<PetrolModel>
 }

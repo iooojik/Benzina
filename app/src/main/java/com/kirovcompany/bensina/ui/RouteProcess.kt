@@ -212,25 +212,28 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
                     rootView.findViewById<Chip>(R.id.last_week_distance).setOnClickListener(this)
                     rootView.findViewById<Chip>(R.id.last_month_distance).setOnClickListener(this)
-                    rootView.findViewById<Chip>(R.id.last_half_year_distance).setOnClickListener(
-                        this
-                    )
+                    rootView.findViewById<Chip>(R.id.last_half_year_distance).setOnClickListener(this)
                     rootView.findViewById<Chip>(R.id.last_year_distance).setOnClickListener(this)
+
+                    rootView.findViewById<Chip>(R.id.last_week_fuel).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_month_fuel).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_half_year_fuel).setOnClickListener(this)
+                    rootView.findViewById<Chip>(R.id.last_year_fuel).setOnClickListener(this)
 
                 } catch (e: java.lang.Exception){
                     e.printStackTrace()
                     Log.e("error", "old api")
                 }
             }
-            //если есть статистика по заправленному топливу, показываем её
-            if (!database.petrolDao().getAll().isNullOrEmpty()){
-                if (!isUpdate)
-                rootView.findViewById<LinearLayout>(R.id.statistics_layout).addView(
-                    layoutInflater.inflate(R.layout.fuel_stats, null)
-                )
                 //отображение статистики
-                showExpenses(database, rootView)
-            }
+                showExpenses(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    false,
+                    0
+                )
+
         }
     }
 
@@ -572,6 +575,46 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                     true,
                     365,
                     rootView.findViewById(R.id.distance_count)
+                )
+            }
+
+            R.id.last_week_fuel -> {
+                showExpenses(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    7
+                )
+            }
+
+            R.id.last_month_fuel -> {
+                showExpenses(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    30
+                )
+            }
+
+            R.id.last_half_year_fuel -> {
+                showExpenses(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    180
+                )
+            }
+
+            R.id.last_year_fuel -> {
+                showExpenses(
+                    database,
+                    rootView,
+                    requireActivity(),
+                    true,
+                    365
                 )
             }
         }

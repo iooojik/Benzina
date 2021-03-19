@@ -2,7 +2,9 @@ package com.kirovcompany.bensina.interfaces
 
 import android.app.Activity
 import android.graphics.Color
+import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
@@ -12,6 +14,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.localdb.AppDatabase
+import com.kirovcompany.bensina.localdb.petrol.PetrolModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -403,57 +406,91 @@ interface ChartsUtil : FragmentUtil {
         }
     }
 
-    fun showExpenses(database: AppDatabase, rootView: View){
+    fun showExpenses(
+        database: AppDatabase, rootView: View, activity: Activity,
+        invalidate: Boolean, range: Int = 0
+    ){
+
         val staticVars = StaticVars()
+
         val mds = database.petrolDao().getAll()
+
+        val resModels = arrayListOf<PetrolModel>()
+
         var rubExpenses = 0.0
         var grivnExpenses = 0.0
         var dollarsExpenses = 0.0
         var euroExpenses = 0.0
         var poundsExpenses = 0.0
 
-        for (m in mds){
-            when (m.currency) {
-                staticVars.currencyValues[0] -> rubExpenses += m.amount * m.price
-                staticVars.currencyValues[1] -> grivnExpenses += m.amount * m.price
-                staticVars.currencyValues[2] -> dollarsExpenses += m.amount * m.price
-                staticVars.currencyValues[3] -> euroExpenses += m.amount * m.price
-                staticVars.currencyValues[4] -> poundsExpenses += m.amount * m.price
+        if (!mds.isNullOrEmpty()){
+            for (i in mds.indices){
+
+                if (invalidate){
+
+                    val modelDate = SimpleDateFormat("dd.MM.yyyy").parse(mds[i].date)
+                    val cDate = SimpleDateFormat("dd.MM.yyyy").parse(getCurrentDate())
+
+
+                    if (abs(daysBetween(modelDate, cDate)) <= range){
+
+                        resModels.add(mds[i])
+
+                    }
+
+                } else {
+
+                    resModels.add(mds[i])
+
+                }
+            }
+
+            for (m in resModels){
+                when (m.currency) {
+                    staticVars.currencyValues[0] -> rubExpenses += m.amount * m.price
+                    staticVars.currencyValues[1] -> grivnExpenses += m.amount * m.price
+                    staticVars.currencyValues[2] -> dollarsExpenses += m.amount * m.price
+                    staticVars.currencyValues[3] -> euroExpenses += m.amount * m.price
+                    staticVars.currencyValues[4] -> poundsExpenses += m.amount * m.price
+                }
             }
         }
 
-        if (rubExpenses > 0.0) rootView.findViewById<TextView>(R.id.rub_expenses).text = rubExpenses.toInt().toString()
-        else {
-            rootView.findViewById<TextView>(R.id.rub_expenses).visibility = View.GONE
-            rootView.findViewById<TextView>(R.id.in_rubs_text_view).visibility = View.GONE
-        }
 
-        if (grivnExpenses > 0.0) rootView.findViewById<TextView>(R.id.grivn_expenses).text = grivnExpenses.toInt().toString()
-        else {
-            rootView.findViewById<TextView>(R.id.grivn_expenses).visibility = View.GONE
-            rootView.findViewById<TextView>(R.id.in_grivn_text_view).visibility = View.GONE
-        }
+        activity.runOnUiThread {
+            if (rubExpenses > 0.0) rootView.findViewById<TextView>(R.id.rub_expenses).text = roundDouble(rubExpenses)
+            else {
+                rootView.findViewById<TextView>(R.id.rub_expenses).visibility = View.GONE
+                rootView.findViewById<TextView>(R.id.in_rubs_text_view).visibility = View.GONE
+            }
 
-        if (dollarsExpenses > 0.0) rootView.findViewById<TextView>(R.id.dollars_expenses).text = dollarsExpenses.toInt().toString()
-        else {
-            rootView.findViewById<TextView>(R.id.dollars_expenses).visibility = View.GONE
-            rootView.findViewById<TextView>(R.id.in_dollars_text_view).visibility = View.GONE
-        }
+            if (grivnExpenses > 0.0) rootView.findViewById<TextView>(R.id.grivn_expenses).text = roundDouble(grivnExpenses)
+            else {
+                rootView.findViewById<TextView>(R.id.grivn_expenses).visibility = View.GONE
+                rootView.findViewById<TextView>(R.id.in_grivn_text_view).visibility = View.GONE
+            }
 
-        if (euroExpenses > 0.0) rootView.findViewById<TextView>(R.id.euro_expenses).text = euroExpenses.toInt().toString()
-        else {
-            rootView.findViewById<TextView>(R.id.euro_expenses).visibility = View.GONE
-            rootView.findViewById<TextView>(R.id.in_euro_text_view).visibility = View.GONE
-        }
+            if (dollarsExpenses > 0.0) rootView.findViewById<TextView>(R.id.dollars_expenses).text = roundDouble(dollarsExpenses)
+            else {
+                rootView.findViewById<TextView>(R.id.dollars_expenses).visibility = View.GONE
+                rootView.findViewById<TextView>(R.id.in_dollars_text_view).visibility = View.GONE
+            }
 
-        if (poundsExpenses > 0.0) rootView.findViewById<TextView>(R.id.pounds_expenses).text = poundsExpenses.toInt().toString()
-        else {
-            rootView.findViewById<TextView>(R.id.pounds_expenses).visibility = View.GONE
-            rootView.findViewById<TextView>(R.id.in_pounds_text_view).visibility = View.GONE
-        }
+            if (euroExpenses > 0.0) rootView.findViewById<TextView>(R.id.euro_expenses).text = roundDouble(euroExpenses)
+            else {
+                rootView.findViewById<TextView>(R.id.euro_expenses).visibility = View.GONE
+                rootView.findViewById<TextView>(R.id.in_euro_text_view).visibility = View.GONE
+            }
 
-        if (rubExpenses == 0.0 && grivnExpenses == 0.0 && dollarsExpenses == 0.0 && euroExpenses == 0.0 && poundsExpenses == 0.0)
-            rootView.findViewById<TextView>(R.id.fuel_name).visibility = View.GONE
+            if (poundsExpenses > 0.0) rootView.findViewById<TextView>(R.id.pounds_expenses).text = roundDouble(poundsExpenses)
+            else {
+                rootView.findViewById<TextView>(R.id.pounds_expenses).visibility = View.GONE
+                rootView.findViewById<TextView>(R.id.in_pounds_text_view).visibility = View.GONE
+            }
+
+            if (rubExpenses == 0.0 && grivnExpenses == 0.0 && dollarsExpenses == 0.0 && euroExpenses == 0.0 && poundsExpenses == 0.0)
+                rootView.findViewById<LinearLayout>(R.id.fuel_stats_layout).visibility = View.GONE
+        }
 
     }
 

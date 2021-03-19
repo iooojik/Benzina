@@ -17,5 +17,8 @@ class PetrolModel (
     var price : Double,
 
     @ColumnInfo(name = "amount")
-    var amount : Double
+    var amount : Double,
+
+    @ColumnInfo(name = "date")
+    var date : String
 )
