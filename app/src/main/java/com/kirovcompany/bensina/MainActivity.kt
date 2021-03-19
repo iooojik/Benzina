@@ -21,7 +21,7 @@ import java.util.*
 
 
 
-@Suppress("DEPRECATION", "SENSELESS_COMPARISON", "IMPLICIT_BOXING_IN_IDENTITY_EQUALS")
+@Suppress("SENSELESS_COMPARISON", "IMPLICIT_BOXING_IN_IDENTITY_EQUALS")
 class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     private lateinit var preferences : SharedPreferences
@@ -29,13 +29,14 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferences = getSharedPreferences(this)
+        changeLocale()
+
         setContentView(R.layout.activity_main)
         initialization()
     }
 
     private fun initialization(){
-        preferences = getSharedPreferences(this)
-        changeLocale()
 
         setupNavigation()
 
@@ -64,17 +65,16 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     private fun changeLocale(){
         val locale = Locale(preferences.getString(staticVars.preferencesLanguage, "ru").toString())
+        Log.e("lang", locale.toLanguageTag())
 
         Locale.setDefault(locale)
-        // Create a new configuration object
-        val config = Configuration()
-        // Set the locale of the new configuration
+
+        val config = this.resources.configuration
+
         config.locale = locale
-        // Update the configuration of the Application context
-        resources.updateConfiguration(
-                config,
-                resources.displayMetrics
-        )
+
+        applicationContext.createConfigurationContext(config)
+        this.resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun goToStartFragment(){

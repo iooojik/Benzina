@@ -72,18 +72,12 @@ class HelloFragment : Fragment(), View.OnClickListener {
 
     private fun setGBLanguage(){
         preferences.edit().putString(StaticVars().preferencesLanguage, "en").apply()
-        restartActivity()
+        requireActivity().recreate()
     }
 
     private fun setRussianLanguage(){
         preferences.edit().putString(StaticVars().preferencesLanguage, "ru").apply()
-        //restartActivity()
-    }
-
-    private fun restartActivity(){
-        val intent = requireActivity().intent
-        requireActivity().finish()
-        startActivity(intent)
+        requireActivity().recreate()
     }
 
 }

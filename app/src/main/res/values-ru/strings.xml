@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bensina</string>
+    <string name="app_name">Benzina</string>
     <string name="car_brand">Марка машины</string>
     <string name="car_model">Модель машины</string>
     <string name="car_year">Год машины</string>
