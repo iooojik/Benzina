@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.kirovcompany.bensina.LocaleHelper
 import com.kirovcompany.bensina.R
 import com.kirovcompany.bensina.StaticVars
 import com.kirovcompany.bensina.interfaces.FragmentUtil
@@ -66,6 +68,8 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
             val state = args.getBoolean("update")
             if (state){
                 changeViewsValues()
+                rootView.findViewById<Button>(R.id.change_lang).visibility = View.VISIBLE
+                rootView.findViewById<Button>(R.id.change_lang).setOnClickListener(this)
             }
         }
 
@@ -99,7 +103,43 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
                 //сохранение информации об авто
                 saveCarInfo()
             }
+            R.id.change_lang -> {
+                selectLang()
+            }
         }
+    }
+    private fun selectLang(){
+        val items = arrayOf("\uD83C\uDDF7\uD83C\uDDFA Русский", "\uD83C\uDDEC\uD83C\uDDE7 English")
+
+        MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Выберите язык | Select language")
+                .setItems(items) { _, which ->
+                    when(which){
+                        0 -> {
+                            setRussianLanguage()
+                        }
+                        1 -> {
+                            setGBLanguage()
+                        }
+                    }
+                    preferences.edit().putBoolean(StaticVars().preferencesLanguageSelected, true).apply()
+                }
+                .setCancelable(false)
+                .show()
+    }
+
+    private fun setGBLanguage(){
+        preferences.edit().putString(StaticVars().preferencesLanguage, "en").apply()
+        LocaleHelper.onAttach(requireActivity().applicationContext, "en")
+        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
+        requireActivity().recreate()
+    }
+
+    private fun setRussianLanguage(){
+        preferences.edit().putString(StaticVars().preferencesLanguage, "ru").apply()
+        LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
+        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
+        requireActivity().recreate()
     }
 
     private fun saveCarInfo() {

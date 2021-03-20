@@ -398,7 +398,12 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                             routeCounter.averageSpeed =
                                 (routeCounter.averageSpeed + calcCarSpeed()) / 2.0
 
-                        routeCounter.distance = routeCounter.distance + database.routeProgressDao().getLast().distance.toDouble()
+                        try{
+                            routeCounter.distance = routeCounter.distance + database.routeProgressDao().getLast().distance.toDouble()
+                        } catch (e : Exception){
+                            e.printStackTrace()
+                        }
+
 
                         database.routesPerDayModel().update(routeCounter)
 
