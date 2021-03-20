@@ -30,6 +30,7 @@ import com.kirovcompany.bensina.interfaces.ChartsUtil
 import com.kirovcompany.bensina.interfaces.FragmentUtil
 import com.kirovcompany.bensina.localdb.AppDatabase
 import com.kirovcompany.bensina.localdb.routesperday.RoutesPerDayModel
+import com.kirovcompany.bensina.localdb.timer.TimerModel
 import com.kirovcompany.bensina.service.LocationService
 import kotlin.concurrent.thread
 
@@ -247,9 +248,15 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
     private fun startLocationService(){
         //обнуляем таймер
-        val t = database.timerDao().get()
-        t.seconds = 0
-        database.timerDao().update(t)
+        var t = database.timerDao().get()
+        if (t != null){
+            t.seconds = 0
+            database.timerDao().update(t)
+        } else {
+           t = TimerModel(null, 0)
+           database.timerDao().insert(t)
+        }
+
 
         //изменяем состояние запуска
         running = true
