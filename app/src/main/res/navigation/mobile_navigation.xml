@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_addCarInfo"
-        android:name="com.kirovcompany.bensina.ui.AddCarInfo"
+        android:name="com.kirovcompany.benzina.ui.AddCarInfo"
         android:label="fragment_add_car_info"
         tools:layout="@layout/fragment_add_car_info" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_routeProcess"
-        android:name="com.kirovcompany.bensina.ui.RouteProcess"
+        android:name="com.kirovcompany.benzina.ui.RouteProcess"
         android:label="fragment_route_process"
         tools:layout="@layout/fragment_route_process" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_helloFragment"
-        android:name="com.kirovcompany.bensina.ui.HelloFragment"
+        android:name="com.kirovcompany.benzina.ui.HelloFragment"
         android:label="fragment_hello"
         tools:layout="@layout/fragment_hello" >
         <action

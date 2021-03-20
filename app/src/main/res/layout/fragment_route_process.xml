@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginBottom="@dimen/bottom_navigation"
-    tools:context="com.kirovcompany.bensina.ui.RouteProcess">
+    tools:context="com.kirovcompany.benzina.ui.RouteProcess">
 
     <LinearLayout
         android:layout_width="match_parent"
