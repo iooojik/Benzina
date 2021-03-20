@@ -41,11 +41,14 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initialization()
+
+
     }
 
     private fun initialization(){
 
         setupNavigation()
+
 
         showAd()
 

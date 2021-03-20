@@ -147,7 +147,7 @@ interface ChartsUtil : FragmentUtil {
 
                         values.add(
                             BarEntry(
-                                i.toFloat(), (models[i].averageCarRate).toInt().toFloat()
+                                i.toFloat(), (models[i].averageCarRate).toFloat()
                             )
                         )
 
@@ -159,7 +159,7 @@ interface ChartsUtil : FragmentUtil {
                 } else {
                     values.add(
                         BarEntry(
-                            i.toFloat(), (models[i].averageCarRate).toInt().toFloat()
+                            i.toFloat(), (models[i].averageCarRate).toFloat()
                         )
                     )
                     topVal += models[i].averageCarRate
