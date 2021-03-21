@@ -36,7 +36,13 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
             recreate()
             preferences.edit().putInt(staticVars.firstStartUP, 1).apply()
         }
-        else preferences.edit().putInt(staticVars.firstStartUP, 0).apply()
+        else {
+
+            showAd()
+            preferences.edit().putInt(staticVars.firstStartUP, 0).apply()
+        }
+
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,12 +52,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
     }
 
     private fun initialization(){
-
         setupNavigation()
-
-
-        showAd()
-
     }
 
     private fun showAd(){
@@ -66,8 +67,13 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
         if (database?.serviceDao()?.get() != null){
 
-            if (!database.serviceDao().get().status)
-                showInterstitialAd(applicationContext, this, false)
+            if (!database.serviceDao().get().status){
+
+                if (preferences.getInt(staticVars.firstAppStartUP, 0) != 0)
+                    showInterstitialAd(applicationContext, this, false)
+
+            }
+
 
         } else showInterstitialAd(applicationContext, this, false)
 
