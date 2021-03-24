@@ -36,7 +36,6 @@ import kotlin.concurrent.thread
 class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil {
 
     private lateinit var rootView : View
-    private val staticVars = StaticVars()
     private lateinit var preferences: SharedPreferences
     private lateinit var database: AppDatabase
     private val handler = Handler()
@@ -115,7 +114,13 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
         timer.post(object : Runnable {
             override fun run() {
                 if (running) {
-                    requireActivity().runOnUiThread { showTime() }
+                    try {
+                        requireActivity().runOnUiThread { showTime() }
+                    } catch (e : java.lang.Exception){
+                        e.printStackTrace()
+                        Log.e("error", "timer update $e")
+                    }
+
                     timer.postDelayed(this, 1000)
                 }
             }
@@ -139,7 +144,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                         Log.e("update ui", "error in updating ui. check database")
                     }
 
-                    handler.postDelayed(this, staticVars.locationDelay + 100)
+                    handler.postDelayed(this, StaticVars.locationDelay + 100)
                 }
             }
 
@@ -271,7 +276,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
     private fun restartService(intent: Intent){
         thread {
             requireActivity().stopService(intent)
-            Thread.sleep(2*staticVars.locationDelay)
+            Thread.sleep(2 * StaticVars.locationDelay)
             requireActivity().startService(intent)
         }
 

@@ -54,13 +54,13 @@ class LocaleHelper {
         private fun persist(context: Context, lang: String) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             val editor = preferences.edit()
-            editor.putString(StaticVars().preferencesLanguage, lang)
+            editor.putString(StaticVars.preferencesLanguage, lang)
             editor.apply()
         }
 
         fun getPersistedData(context: Context, language: String): String {
-            val preferences = context.getSharedPreferences(StaticVars().preferencesName, Context.MODE_PRIVATE)
-            return preferences.getString(StaticVars().preferencesLanguage, language).toString()
+            val preferences = context.getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
+            return preferences.getString(StaticVars.preferencesLanguage, language).toString()
         }
     }
 }

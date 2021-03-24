@@ -20,10 +20,8 @@ class LocationService : Service(), ServiceUtil {
     private val timer = Handler()
     private lateinit var database : AppDatabase
     private var running = false
-    private val staticVars = StaticVars()
-    private var prevLocation = MyLocationListener.imHere
-    private var tempRate = 0.0.toDouble()
-    private var tempDistance = 0.0.toDouble()
+    private var tempRate = 0.0
+    private var tempDistance = 0.0
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -31,7 +29,7 @@ class LocationService : Service(), ServiceUtil {
 
     override fun onCreate() {
         super.onCreate()
-        MyLocationListener.setUpLocationListener(applicationContext)
+
         database = getAppDatabase(applicationContext)
 
         if (!database.routeProgressDao().getAll().isNullOrEmpty()) {
@@ -39,7 +37,6 @@ class LocationService : Service(), ServiceUtil {
             tempRate = database.routeProgressDao().getLast().carRate.toDouble()
         }
 
-        prevLocation = MyLocationListener.imHere
         running = database.serviceDao().get().status
 
         try {
@@ -52,51 +49,51 @@ class LocationService : Service(), ServiceUtil {
 
     private fun setLocationListener() {
 
-        MyLocationListener.setUpLocationListener(applicationContext)
+        MyLocationListener.setUpLocationListener(applicationContext, database.carModelDao().getLast().carRate.toDouble())
 
         handler.post(object : Runnable {
             override fun run() {
-                running = database.serviceDao().get().status!!
+                running = database.serviceDao().get().status
 
                 if (running) {
                     //сохранение скорости пользователя
                     try {
 
                         //подсчёт дистанции от предыдущей точки
-                        val distance = calcDistance(MyLocationListener.imHere, prevLocation)
-                        tempDistance += distance
+                        tempDistance += MyLocationListener.distance
 
                         //получение скорости движения
-                        val speed = (MyLocationListener.imHere?.speed!! *3600/1000).toString()
+                        val speed = MyLocationListener.speed
 
                         //подсчёт расхода топлива
-                        val carRate = calcCarRate(
-                                distance.toDouble(),
-                                database.carModelDao().getLast().carRate.toDouble(),
-                                speed.toDouble()
+                        tempRate += MyLocationListener.rate
+
+                        Log.e(
+                            "results", "speed $speed " +
+                                "rate $tempRate " +
+                                "distance $tempDistance " +
+                                "coordinates ${MyLocationListener.longitude} ${MyLocationListener.latitude}"
                         )
-
-                        tempRate += carRate
-
-                        Log.e("ttt", "speed $speed rate $tempRate distance $tempDistance " +
-                                "coordinates ${MyLocationListener.imHere?.longitude} ${MyLocationListener.imHere?.latitude}")
 
                         database
                             .routeProgressDao()
                             .insert(
                                 RouteProgressModel(
                                     null,
-                                    speed,
+                                    speed.toString(),
                                     tempDistance.toString(),
                                     tempRate.toString()
                                 )
                             )
-                        prevLocation = MyLocationListener.imHere
+
                     } catch (e : Exception){
+
                         e.printStackTrace()
                         Log.e("error", "error in saving RouteProgressModel in database")
+
                     }
-                    handler.postDelayed(this, staticVars.locationDelay)
+
+                    handler.postDelayed(this, StaticVars.locationDelay)
                 }
             }
         })
@@ -117,28 +114,6 @@ class LocationService : Service(), ServiceUtil {
         })
     }
 
-    private fun calcCarRate(distance : Double, rate : Double, speed: Double): Double {
-        //подсчёт расхода топлива
-        return (distance*(rate + getAdditionalRate(speed)))/100
-    }
 
-    private fun getAdditionalRate(speed : Double) : Double{
-        return if (speed > 0 && speed <= 40)
-            +3.0
-        else if (speed > 40 && speed <= 70)
-            +2.0
-        else if (speed > 70 && speed <= 80)
-            0.0
-        else if (speed > 80 && speed <= 120)
-            -2.0
-        else +1.0
-    }
-
-    private fun calcDistance(currLocation : Location?, prevLocation : Location?): Float {
-        //подсчёт пройденной дистанции в км
-        return if (prevLocation != null && currLocation != null)
-            prevLocation.distanceTo(currLocation)/1000
-        else 0f
-    }
 
 }

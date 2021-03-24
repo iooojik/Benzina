@@ -34,7 +34,6 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     lateinit var carEngineAmountField : EditText
     lateinit var carRateField : EditText
     lateinit var preferences: SharedPreferences
-    private val staticVars = StaticVars()
 
 
     override fun onCreateView(
@@ -121,23 +120,23 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
                             setGBLanguage()
                         }
                     }
-                    preferences.edit().putBoolean(StaticVars().preferencesLanguageSelected, true).apply()
+                    preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
                 }
                 .setCancelable(false)
                 .show()
     }
 
     private fun setGBLanguage(){
-        preferences.edit().putString(StaticVars().preferencesLanguage, "en").apply()
+        preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "en")
-        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
+        preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
         requireActivity().recreate()
     }
 
     private fun setRussianLanguage(){
-        preferences.edit().putString(StaticVars().preferencesLanguage, "ru").apply()
+        preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
-        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
+        preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
         requireActivity().recreate()
     }
 
@@ -194,7 +193,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         database.timerDao().insert(TimerModel(null, 0))
         database.serviceDao().deleteAll()
         database.serviceDao().insert(ServiceModel(null, false))
-        saveBooleanToPrefs(staticVars.userAddedCar, true)
+        saveBooleanToPrefs(StaticVars.userAddedCar, true)
     }
 
     private fun saveStringToPrefs(key : String, value : String){

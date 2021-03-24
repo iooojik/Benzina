@@ -412,8 +412,6 @@ interface ChartsUtil : FragmentUtil {
         invalidate: Boolean, range: Int = 0
     ){
 
-        val staticVars = StaticVars()
-
         val mds = database.petrolDao().getAll()
 
         val resModels = arrayListOf<PetrolModel>()
@@ -448,11 +446,11 @@ interface ChartsUtil : FragmentUtil {
 
             for (m in resModels){
                 when (m.currency) {
-                    staticVars.currencyValues[0] -> rubExpenses += m.amount * m.price
-                    staticVars.currencyValues[1] -> grivnExpenses += m.amount * m.price
-                    staticVars.currencyValues[2] -> dollarsExpenses += m.amount * m.price
-                    staticVars.currencyValues[3] -> euroExpenses += m.amount * m.price
-                    staticVars.currencyValues[4] -> poundsExpenses += m.amount * m.price
+                    StaticVars.currencyValues[0] -> rubExpenses += m.amount * m.price
+                    StaticVars.currencyValues[1] -> grivnExpenses += m.amount * m.price
+                    StaticVars.currencyValues[2] -> dollarsExpenses += m.amount * m.price
+                    StaticVars.currencyValues[3] -> euroExpenses += m.amount * m.price
+                    StaticVars.currencyValues[4] -> poundsExpenses += m.amount * m.price
                 }
             }
         }

@@ -13,7 +13,6 @@ interface AdUtil {
     fun showInterstitialAd(context: Context, activity: Activity, isFuel : Boolean){
         val TAG = "AD"
         val adRequest = AdRequest.Builder().build()
-        val staticVars = StaticVars()
         var mInterstitialAd : InterstitialAd? = null
 
         mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
@@ -32,8 +31,8 @@ interface AdUtil {
         }
 
         val id : String = if (isFuel)
-            staticVars.videoAfterFuelAdId
-        else staticVars.videoOnStartUp
+            StaticVars.videoAfterFuelAdId
+        else StaticVars.videoOnStartUp
 
         InterstitialAd.load(context, id, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {

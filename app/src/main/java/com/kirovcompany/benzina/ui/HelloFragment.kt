@@ -23,14 +23,14 @@ class HelloFragment : Fragment(), View.OnClickListener, FragmentUtil {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        preferences = requireActivity().getSharedPreferences(StaticVars().preferencesName, Context.MODE_PRIVATE)
+        preferences = requireActivity().getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
         rootView = inflater.inflate(R.layout.fragment_hello, container, false)
         requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.fab).hide()
         rootView.findViewById<ExtendedFloatingActionButton>(R.id.go_next).setOnClickListener(this)
         rootView.findViewById<ExtendedFloatingActionButton>(R.id.select_lang).setOnClickListener(this)
 
-        if (!preferences.getBoolean(StaticVars().preferencesLanguageSelected, false))
+        if (!preferences.getBoolean(StaticVars.preferencesLanguageSelected, false))
             selectLang()
 
         return rootView
@@ -61,23 +61,23 @@ class HelloFragment : Fragment(), View.OnClickListener, FragmentUtil {
                             setGBLanguage()
                         }
                     }
-                    preferences.edit().putBoolean(StaticVars().preferencesLanguageSelected, true).apply()
+                    preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
                 }
                 .setCancelable(false)
                 .show()
     }
 
     private fun setGBLanguage(){
-        preferences.edit().putString(StaticVars().preferencesLanguage, "en").apply()
+        preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "en")
-        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
+        preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
         requireActivity().recreate()
     }
 
     private fun setRussianLanguage(){
-        preferences.edit().putString(StaticVars().preferencesLanguage, "ru").apply()
+        preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
-        preferences.edit().putInt(StaticVars().firstStartUP, 1).apply()
+        preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
         requireActivity().recreate()
     }
 

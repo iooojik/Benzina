@@ -22,31 +22,27 @@ import java.util.*
 class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     private lateinit var preferences : SharedPreferences
-    private val staticVars = StaticVars()
-
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(LocaleHelper.onAttach(base!!, "ru"))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         preferences = getSharedPreferences(this)
 
-        if (preferences.getInt(staticVars.firstStartUP, 0) == 0){
+        if (preferences.getInt(StaticVars.firstStartUP, 0) == 0){
             recreate()
-            preferences.edit().putInt(staticVars.firstStartUP, 1).apply()
+            preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
         }
         else {
+            setContentView(R.layout.activity_main)
+            initialization()
 
             showAd()
-            preferences.edit().putInt(staticVars.firstStartUP, 0).apply()
+            preferences.edit().putInt(StaticVars.firstStartUP, 0).apply()
         }
-
-
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initialization()
 
 
     }
@@ -69,7 +65,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
             if (!database.serviceDao().get().status){
 
-                if (preferences.getInt(staticVars.firstAppStartUP, 0) != 0)
+                if (preferences.getInt(StaticVars.firstAppStartUP, 0) != 0)
                     showInterstitialAd(applicationContext, this, false)
 
             }
@@ -85,7 +81,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
         //если пользователь уже начал запись, то переходим на фрагемент с маршрутом
         val database = AppDatabase.getAppDataBase(applicationContext)
 
-        if (getBooleanValueFalse(preferences, staticVars.userAddedCar)){
+        if (getBooleanValueFalse(preferences, StaticVars.userAddedCar)){
 
             if (database != null){
 
@@ -99,7 +95,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
                     } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
-                } else if(database.serviceDao().get() == null || getBooleanValueFalse(preferences, staticVars.userAddedCar)) {
+                } else if(database.serviceDao().get() == null || getBooleanValueFalse(preferences, StaticVars.userAddedCar)) {
 
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
@@ -119,7 +115,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
     }
 
     private fun getHomeFragment() : Int{
-        return if (getBooleanValueFalse(preferences, staticVars.userAddedCar))
+        return if (getBooleanValueFalse(preferences, StaticVars.userAddedCar))
             R.layout.fragment_route_process
         else R.layout.fragment_add_car_info
     }

@@ -9,7 +9,7 @@ interface PreferencesUtil {
 
     fun getSharedPreferences(activity: Activity) : SharedPreferences {
         //получаение сохранённых настроек приложения
-        return activity.getSharedPreferences(StaticVars().preferencesName, Context.MODE_PRIVATE)
+        return activity.getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
     }
 
     fun saveStringToSharedPreferences(preferences: SharedPreferences, name : String, value : String) {

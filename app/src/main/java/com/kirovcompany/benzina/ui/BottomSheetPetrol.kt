@@ -21,8 +21,7 @@ class BottomSheetPetrol (
     private val bottomView : View = activity.layoutInflater.inflate(R.layout.bottom_sheet_petrol, null)
     val bottomSheetDialog : BottomSheetDialog = BottomSheetDialog(context)
     private val database : AppDatabase = AppDatabase.getAppDataBase(context)!!
-    private val staticVars = StaticVars()
-    private val preferences = activity.getSharedPreferences(staticVars.preferencesName, Context.MODE_PRIVATE)
+    private val preferences = activity.getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
     init {
         //"подготовка" bottomSheetDialog
@@ -32,13 +31,13 @@ class BottomSheetPetrol (
 
     private fun initialize() {
         //слушатель на кнопку
-        val adapter = ArrayAdapter(context, R.layout.dropdown_item, staticVars.currencyValues)
+        val adapter = ArrayAdapter(context, R.layout.dropdown_item, StaticVars.currencyValues)
         bottomView.findViewById<AutoCompleteTextView>(R.id.currency_text_view).setAdapter(adapter)
         bottomView.findViewById<Button>(R.id.add_button).setOnClickListener(this)
-        if (preferences.getInt(staticVars.adPetrolNum, 0) % 2 != 0){
+        if (preferences.getInt(StaticVars.adPetrolNum, 0) % 2 != 0){
             showInterstitialAd(context, activity, true)
-            preferences.edit().putInt(staticVars.adPetrolNum, 0).apply()
-        } else preferences.edit().putInt(staticVars.adPetrolNum, preferences.getInt(staticVars.adPetrolNum, 0)  + 1).apply()
+            preferences.edit().putInt(StaticVars.adPetrolNum, 0).apply()
+        } else preferences.edit().putInt(StaticVars.adPetrolNum, preferences.getInt(StaticVars.adPetrolNum, 0)  + 1).apply()
     }
 
     override fun onClick(v: View?) {
