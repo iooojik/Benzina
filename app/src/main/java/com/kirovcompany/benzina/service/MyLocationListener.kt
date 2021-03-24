@@ -1,29 +1,41 @@
-package com.kirovcompany.benzina
+package com.kirovcompany.benzina.service
 
 import android.annotation.SuppressLint
 import android.content.Context;
+import android.content.SharedPreferences
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log
+import com.kirovcompany.benzina.StaticVars
 
 
 class MyLocationListener : LocationListener {
 
     override fun onLocationChanged(loc: Location) {
         imHere = loc
+
         latitude = loc.latitude
         longitude = loc.longitude
-        speed = (loc.speed *3600/1000).toDouble()
-        distance = calcDistance(imHere, prevLocation)
 
-        rate = calcCarRate(
-            distance.toDouble(),
-            constCarRate,
-            speed
-        )
+        //получение скорости движения
+        speed = (loc.speed *3600/1000).toDouble()
+
+        //подсчёт дистанции от предыдущей точки
+        distance += calcDistance(imHere, prevLocation)
+        //подсчёт расхода топлива
+        rate += calcCarRate(distance.toDouble(), constCarRate, speed)
         prevLocation = loc
+
+
+
+        Log.e(
+            "results", "speed ${MyLocationListener.speed} " +
+                    "rate ${MyLocationListener.rate} " +
+                    "distance ${MyLocationListener.distance} " +
+                    "coordinates ${MyLocationListener.longitude} ${MyLocationListener.latitude}"
+        )
 
     }
 
@@ -33,6 +45,8 @@ class MyLocationListener : LocationListener {
 
     companion object {
         // здесь будет всегда доступна самая последняя информация о местоположении пользователя.
+        var preferences : SharedPreferences? = null
+
         var prevLocation : Location? = null
         var imHere : Location? = null
         var latitude : Double? = null
@@ -50,6 +64,7 @@ class MyLocationListener : LocationListener {
             val locationListener: LocationListener = MyLocationListener()
 
             constCarRate = carRate
+
 
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,

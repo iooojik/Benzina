@@ -23,17 +23,19 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.kirovcompany.benzina.R
 import com.kirovcompany.benzina.StaticVars
+import com.kirovcompany.benzina.interfaces.AdUtil
 import com.kirovcompany.benzina.interfaces.ChartsUtil
 import com.kirovcompany.benzina.interfaces.FragmentUtil
 import com.kirovcompany.benzina.localdb.AppDatabase
 import com.kirovcompany.benzina.localdb.routesperday.RoutesPerDayModel
 import com.kirovcompany.benzina.localdb.timer.TimerModel
 import com.kirovcompany.benzina.service.LocationService
+import com.kirovcompany.benzina.service.MyLocationListener
 import kotlin.concurrent.thread
 
 
 @Suppress("SENSELESS_COMPARISON", "DEPRECATION")
-class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil {
+class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil, AdUtil {
 
     private lateinit var rootView : View
     private lateinit var preferences: SharedPreferences
@@ -88,14 +90,27 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
         //добавление кнопки в зависимости от переменной @running
         showButtonStartStop()
 
+        thread {
+            if (running){
+                restartService(mService)
+                requireActivity().runOnUiThread {
+                    updateUI()
+                    showVals()
+                }
+            }
+        }
+
+        showBanner(requireActivity())
+
         //отображение статистики
         showStatistics(false)
 
-        if (running){
-            restartService(mService)
-            updateUI()
-        }
+    }
 
+    private fun showVals() {
+        carRateTextView.text = preferences.getFloat(StaticVars.preferencesRate, 0f).toString()
+        speedTextView.text = preferences.getFloat(StaticVars.preferencesSpeed, 0f).toString()
+        carDistanceTextView.text = preferences.getFloat(StaticVars.preferencesDistance, 0f).toString()
     }
 
     private fun showButtonStartStop(){
@@ -279,18 +294,6 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
             Thread.sleep(2 * StaticVars.locationDelay)
             requireActivity().startService(intent)
         }
-
-    }
-
-    private fun isMyServiceRunning(): Boolean {
-        val manager = requireActivity().getSystemService(ACTIVITY_SERVICE) as ActivityManager?
-        for (service in manager!!.getRunningServices(Int.MAX_VALUE)) {
-
-            if (LocationService::class.simpleName.toString() == service.service.className) {
-                return true
-            }
-        }
-        return false
     }
 
     private fun showTime() {
@@ -308,42 +311,17 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
     }
 
     private fun showDistance() {
-        val routeModel = database.routeProgressDao().getLast()
-        carDistanceTextView.text = roundDouble(routeModel.distance.toDouble()).toString()
+        carDistanceTextView.text = roundDouble(MyLocationListener.distance.toDouble())
     }
 
     private fun showCarRate() {
         //отображение расхода
-        carRateTextView.text = roundDouble(calcCarRate())
+        carRateTextView.text = roundDouble(MyLocationListener.rate)
     }
 
     private fun showSpeed(){
         //отображение скорости
-        //получение последней записи
-        val routeModel = database.routeProgressDao().getLast()
-        //отображение скорости
-        speedTextView.text = roundDouble(routeModel.speed.toDouble())
-    }
-
-    private fun calcCarRate() : Double{
-        //последняя запись - общий расход
-        return if (database.routeProgressDao().getLast() == null) 0.0
-        else {
-            val mds = database.routeProgressDao().getLast()
-            mds.carRate.toDouble()
-        }
-    }
-
-    private fun calcCarSpeed() : Double{
-        val mds = database.routeProgressDao().getAll()
-        var speed = 0.0
-        for (m in mds){
-            speed += m.speed.toDouble()
-        }
-        speed /= mds.size
-        if (speed.isNaN())
-            speed = 0.0
-        return speed
+        speedTextView.text = roundDouble(MyLocationListener.speed)
     }
 
     override fun onClick(v: View?) {
@@ -370,8 +348,7 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                 val md = database.serviceDao().get()
 
                 if (md != null) {
-                    //останавливаем сервис
-                    requireActivity().stopService(mService)
+
 
                     //изменяем статус работы сервиса
                     md.status = running
@@ -390,22 +367,23 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
                             null,
                             getCurrentDate(),
                             1,
-                            calcCarRate(),
-                            calcCarSpeed(),
+                            MyLocationListener.rate,
+                            MyLocationListener.speed,
                             distance
                         )
                         database.routesPerDayModel().insert(routeCounter)
+
                     } else {
 
                         routeCounter.num = routeCounter.num + 1
 
-                        if (calcCarRate() != 0.0)
+                        if (MyLocationListener.rate != 0.0)
                             routeCounter.averageCarRate =
-                                (routeCounter.averageCarRate + calcCarRate())
+                                (routeCounter.averageCarRate + MyLocationListener.rate)
 
-                        if (calcCarSpeed() != 0.0)
+                        if (MyLocationListener.speed != 0.0)
                             routeCounter.averageSpeed =
-                                (routeCounter.averageSpeed + calcCarSpeed()) / 2.0
+                                (routeCounter.averageSpeed + MyLocationListener.speed) / 2.0
 
                         try{
                             routeCounter.distance = routeCounter.distance + database.routeProgressDao().getLast().distance.toDouble()
@@ -418,6 +396,8 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil 
 
                     }
 
+                    //останавливаем сервис
+                    requireActivity().stopService(mService)
                     requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
                 }
 

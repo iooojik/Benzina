@@ -3,6 +3,7 @@ package com.kirovcompany.benzina
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -17,7 +18,6 @@ import com.kirovcompany.benzina.localdb.AppDatabase
 import java.util.*
 
 
-
 @Suppress("SENSELESS_COMPARISON", "IMPLICIT_BOXING_IN_IDENTITY_EQUALS")
 class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
@@ -29,21 +29,20 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        preferences = getSharedPreferences(this)
+        preferences = getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
-        if (preferences.getInt(StaticVars.firstStartUP, 0) == 0){
-            recreate()
-            preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
-        }
-        else {
-            setContentView(R.layout.activity_main)
-            initialization()
-
-            showAd()
-            preferences.edit().putInt(StaticVars.firstStartUP, 0).apply()
+        if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0){
+            val intent = intent
+            finish()
+            startActivity(intent)
+            preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
         }
 
+        showAd()
+
+        initialization()
 
     }
 
@@ -52,26 +51,24 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
     }
 
     private fun showAd(){
+
         MobileAds.initialize(this) {}
-        //показываем баннер
-        val mAdView = findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+        if (preferences.getBoolean(StaticVars.userAddedCar, false)) {
+            //показываем баннер
 
-        //показываем видео-рекламу
-        val database = AppDatabase.getAppDataBase(applicationContext)
+            showBanner(this)
 
-        if (database?.serviceDao()?.get() != null){
+            //показываем видео-рекламу
+            val database = AppDatabase.getAppDataBase(applicationContext)
 
-            if (!database.serviceDao().get().status){
+            if (database?.serviceDao()?.get() != null) {
 
-                if (preferences.getInt(StaticVars.firstAppStartUP, 0) != 0)
+                if (!database.serviceDao().get().status) {
                     showInterstitialAd(applicationContext, this, false)
+                }
 
-            }
-
-
-        } else showInterstitialAd(applicationContext, this, false)
+            } else showInterstitialAd(applicationContext, this, false)
+        }
 
     }
 
@@ -95,7 +92,10 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
                     } else findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
-                } else if(database.serviceDao().get() == null || getBooleanValueFalse(preferences, StaticVars.userAddedCar)) {
+                } else if(database.serviceDao().get() == null || getBooleanValueFalse(
+                        preferences,
+                        StaticVars.userAddedCar
+                    )) {
 
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_routeProcess)
 
@@ -107,7 +107,6 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
     }
 
     private fun setupNavigation(){
-
         //views
         val drawer : DrawerLayout = findViewById(R.id.drawer)
         AppBarConfiguration.Builder(getHomeFragment()).setDrawerLayout(drawer).build()

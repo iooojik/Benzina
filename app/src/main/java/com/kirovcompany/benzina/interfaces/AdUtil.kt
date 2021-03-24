@@ -6,6 +6,7 @@ import android.util.Log
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.kirovcompany.benzina.R
 import com.kirovcompany.benzina.StaticVars
 
 interface AdUtil {
@@ -44,10 +45,15 @@ interface AdUtil {
                 Log.d(TAG, "Ad was loaded.")
                 mInterstitialAd = interstitialAd
                 mInterstitialAd?.show(activity)
+
             }
         })
     }
 
 
-
+    fun showBanner(activity: Activity){
+        val mAdView = activity.findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+    }
 }
