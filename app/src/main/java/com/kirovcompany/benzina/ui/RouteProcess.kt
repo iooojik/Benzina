@@ -392,7 +392,12 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil,
                         }
 
 
+
                         database.routesPerDayModel().update(routeCounter)
+
+                        preferences.edit().putFloat(StaticVars.preferencesSpeed, 0f).apply()
+                        preferences.edit().putFloat(StaticVars.preferencesDistance, 0f).apply()
+                        preferences.edit().putFloat(StaticVars.preferencesRate, 0f).apply()
 
                     }
 

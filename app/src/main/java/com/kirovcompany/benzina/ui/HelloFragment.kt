@@ -63,7 +63,7 @@ class HelloFragment : Fragment(), View.OnClickListener, FragmentUtil {
                     }
                     preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
                 }
-                .setCancelable(false)
+                .setCancelable(preferences.getBoolean(StaticVars.preferencesLanguageSelected, false))
                 .show()
     }
 

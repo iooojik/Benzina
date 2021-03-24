@@ -34,16 +34,23 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
         preferences = getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
         if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0){
-            val intent = intent
-            finish()
-            startActivity(intent)
             preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
+            restart()
         }
-
         showAd()
-
         initialization()
+    }
 
+    private fun restart(){
+        val intent = intent
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
     }
 
     private fun initialization(){

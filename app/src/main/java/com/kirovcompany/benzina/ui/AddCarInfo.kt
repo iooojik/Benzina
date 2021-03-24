@@ -34,6 +34,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     lateinit var carEngineAmountField : EditText
     lateinit var carRateField : EditText
     lateinit var preferences: SharedPreferences
+    var stateSettings : Boolean = false
 
 
     override fun onCreateView(
@@ -63,8 +64,8 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
 
         val args = arguments
         if (args != null){
-            val state = args.getBoolean("update")
-            if (state){
+            stateSettings = args.getBoolean("update")
+            if (stateSettings){
                 changeViewsValues()
                 rootView.findViewById<Button>(R.id.change_lang).visibility = View.VISIBLE
                 rootView.findViewById<Button>(R.id.change_lang).setOnClickListener(this)
@@ -122,21 +123,21 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
                     }
                     preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
                 }
-                .setCancelable(false)
+                .setCancelable(stateSettings)
                 .show()
     }
 
     private fun setGBLanguage(){
         preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "en")
-        preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
+        preferences.edit().putInt(StaticVars.firstStartUP, 0).apply()
         requireActivity().recreate()
     }
 
     private fun setRussianLanguage(){
         preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
-        preferences.edit().putInt(StaticVars.firstStartUP, 1).apply()
+        preferences.edit().putInt(StaticVars.firstStartUP, 0).apply()
         requireActivity().recreate()
     }
 
