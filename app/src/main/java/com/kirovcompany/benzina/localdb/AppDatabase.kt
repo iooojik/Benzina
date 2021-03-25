@@ -25,7 +25,6 @@ import com.kirovcompany.benzina.localdb.timer.TimerModel
     PetrolModel::class, RoutesPerDayModel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun carBrandDao() : CarBrandDao
     abstract fun serviceDao() : ServiceDao
     abstract fun routeProgressDao() : RouteProgressDao
     abstract fun carModelDao() : CarModelDao

@@ -87,10 +87,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
 
     private fun setCarModels() {
         //выбор модели авто из базы данных
-        val tempModels = database.carBrandDao().getAll()
-        val models = mutableListOf<String>()
-        for (model in tempModels)
-            models.add(model.carBrand.toString())
+        val models = StaticVars.carModels
         models.sort()
         val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, models)
         carBrandField.setAdapter(adapter)
