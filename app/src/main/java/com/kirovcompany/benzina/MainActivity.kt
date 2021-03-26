@@ -29,27 +29,38 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         preferences = getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
-        val handler = Handler()
+        Log.e("ttt", preferences.getString(StaticVars.preferencesLanguage, "ru").toString())
 
+        val handler = Handler()
         handler.postDelayed({
+            LocaleHelper.onAttach(applicationContext, "en")
+
             if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0) {
+
                 finish()
                 startActivity(Intent(this@MainActivity, MainActivity::class.java))
                 preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
+
             } else{
+
                 preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
+
+
                 if (!preferences.getBoolean(StaticVars.preferencesLanguageChanged, false))
                     showAd()
                 preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, false).apply()
+
+
             }
 
         }, 1000)
 
+        setContentView(R.layout.activity_main)
         initialization()
+
 
     }
 

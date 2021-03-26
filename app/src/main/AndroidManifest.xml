@@ -21,8 +21,9 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4089170244903019~8454325422"/>
 
-        <activity android:name="com.kirovcompany.benzina.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+        <activity
+            android:name="com.kirovcompany.benzina.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

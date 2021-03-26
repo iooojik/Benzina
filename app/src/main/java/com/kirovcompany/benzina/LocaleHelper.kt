@@ -52,7 +52,7 @@ class LocaleHelper {
         }
 
         private fun persist(context: Context, lang: String) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val preferences = context.getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
             val editor = preferences.edit()
             editor.putString(StaticVars.preferencesLanguage, lang)
             editor.apply()
