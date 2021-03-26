@@ -9,7 +9,7 @@
 
 
     <application
-        android:name="com.kirovcompany.benzina.MainApplication"
+        android:name=".Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
             android:value="ca-app-pub-4089170244903019~8454325422"/>
 
         <activity
-            android:name="com.kirovcompany.benzina.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

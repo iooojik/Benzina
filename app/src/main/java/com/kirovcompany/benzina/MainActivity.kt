@@ -23,8 +23,9 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     private lateinit var preferences : SharedPreferences
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(LocaleHelper.onAttach(base!!, "ru"))
+    override fun attachBaseContext(newBase: Context?) {
+        Application.getInstance().initAppLanguage(newBase)
+        super.attachBaseContext(newBase)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,34 +33,15 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
         preferences = getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
-        Log.e("ttt", preferences.getString(StaticVars.preferencesLanguage, "ru").toString())
+        Application.getInstance().initAppLanguage(this)
 
-        val handler = Handler()
-        handler.postDelayed({
-            LocaleHelper.onAttach(applicationContext, "en")
-
-            if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0) {
-
-                finish()
-                startActivity(Intent(this@MainActivity, MainActivity::class.java))
-                preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
-
-            } else{
-
-                preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
-
-
-                if (!preferences.getBoolean(StaticVars.preferencesLanguageChanged, false))
-                    showAd()
-                preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, false).apply()
-
-
-            }
-
-        }, 1000)
 
         setContentView(R.layout.activity_main)
         initialization()
+
+        if (!preferences.getBoolean(StaticVars.preferencesLanguageChanged, false))
+            showAd()
+        preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, false).apply()
 
 
     }
@@ -77,15 +59,15 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
             showBanner(this)
 
             //показываем видео-рекламу
-            val database = AppDatabase.getAppDataBase(applicationContext)
+            val database = AppDatabase.getAppDataBase(this)
 
             if (database?.serviceDao()?.get() != null) {
 
                 if (!database.serviceDao().get().status) {
-                    showInterstitialAd(applicationContext, this, false)
+                    showInterstitialAd(this, this, false)
                 }
 
-            } else showInterstitialAd(applicationContext, this, false)
+            } else showInterstitialAd(this, this, false)
         }
 
     }

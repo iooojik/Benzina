@@ -1,20 +1,21 @@
 package com.kirovcompany.benzina.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.kirovcompany.benzina.LocaleHelper
+import com.kirovcompany.benzina.LocaleUtils
 import com.kirovcompany.benzina.R
 import com.kirovcompany.benzina.StaticVars
 import com.kirovcompany.benzina.interfaces.FragmentUtil
@@ -113,11 +114,17 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
                     when(which){
                         0 -> {
                             setRussianLanguage()
-                            preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, true).apply()
+                            preferences.edit().putBoolean(
+                                StaticVars.preferencesLanguageChanged,
+                                true
+                            ).apply()
                         }
                         1 -> {
                             setGBLanguage()
-                            preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, true).apply()
+                            preferences.edit().putBoolean(
+                                StaticVars.preferencesLanguageChanged,
+                                true
+                            ).apply()
                         }
                     }
                     preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
@@ -127,17 +134,24 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     }
 
     private fun setGBLanguage(){
-        preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
-        LocaleHelper.onAttach(requireActivity().applicationContext, "en")
-        preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
-        restart()
+        LocaleUtils.setSelectedLanguageId("en")
+        val i: Intent? = requireActivity().getPackageManager()
+            .getLaunchIntentForPackage(requireActivity().getPackageName())
+        requireActivity().finish()
+        startActivity(i)
+        //preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
+        //LocaleHelper.onAttach(requireActivity().applicationContext, "en")
+        //restart()
     }
 
     private fun setRussianLanguage(){
-        preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
-        LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
-        preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
-        restart()
+        LocaleUtils.setSelectedLanguageId("ru")
+        val i: Intent? = requireActivity().getPackageManager().getLaunchIntentForPackage(requireActivity().getPackageName())
+        requireActivity().finish()
+        startActivity(i)
+        //preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
+        //LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
+        //restart()
     }
 
     private fun restart(){
@@ -177,14 +191,20 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
 
         } else {
             requireActivity().runOnUiThread {
-                Snackbar.make(rootView, requireActivity().resources.getString(R.string.not_all_fields), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(
+                    rootView,
+                    requireActivity().resources.getString(R.string.not_all_fields),
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
     }
 
-    private fun saveCarInfo(carBrand: String, carModel: String, carYear: String,
-                                  carOdometer: String, carEngineAmount: String, carRate: String) {
+    private fun saveCarInfo(
+        carBrand: String, carModel: String, carYear: String,
+        carOdometer: String, carEngineAmount: String, carRate: String
+    ) {
         val carModelObj = CarModel(
             null,
             carBrand,
@@ -203,23 +223,33 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         saveBooleanToPrefs(StaticVars.userAddedCar, true)
     }
 
-    private fun saveStringToPrefs(key : String, value : String){
+    private fun saveStringToPrefs(key: String, value: String){
         saveStringToSharedPreferences(preferences, key, value)
     }
 
-    private fun saveBooleanToPrefs(key : String, value : Boolean){
+    private fun saveBooleanToPrefs(key: String, value: Boolean){
         saveBooleanToSharedPreferences(preferences, key, value)
     }
 
     private fun checkPermissions() : Boolean {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
             != PackageManager.PERMISSION_GRANTED
             &&
-            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
             != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(requireActivity(),
-                listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).toTypedArray(),
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                listOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ).toTypedArray(),
                 101
             )
         } else return true

@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.kirovcompany.benzina.LocaleHelper
 import com.kirovcompany.benzina.localdb.AppDatabase
 import com.kirovcompany.benzina.ui.BottomSheetPetrol
 import com.kirovcompany.benzina.ui.RouteProcess
@@ -43,11 +42,6 @@ interface FragmentUtil : PreferencesUtil {
 
     fun roundDouble(double : Double) : String{
         return String.format("%.2f", double)
-    }
-
-    fun setContextLocale(lang : String, ctx: Context) : Context{
-        val context = LocaleHelper.setLocale(ctx, lang)
-        return context
     }
 
     fun initViews()
