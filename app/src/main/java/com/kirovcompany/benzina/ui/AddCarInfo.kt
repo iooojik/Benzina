@@ -113,12 +113,13 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
                     when(which){
                         0 -> {
                             setRussianLanguage()
+                            preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, true).apply()
                         }
                         1 -> {
                             setGBLanguage()
+                            preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, true).apply()
                         }
                     }
-                    preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, true).apply()
                     preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
                 }
                 .setCancelable(stateSettings)

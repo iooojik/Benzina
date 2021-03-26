@@ -1,15 +1,15 @@
 package com.kirovcompany.benzina
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.kirovcompany.benzina.interfaces.AdUtil
 import com.kirovcompany.benzina.interfaces.FragmentUtil
@@ -29,32 +29,28 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         preferences = getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
-        if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0){
-            preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
-            restart()
-        }else {
-            setContentView(R.layout.activity_main)
-            if (!preferences.getBoolean(StaticVars.preferencesLanguageChanged, false))
-                showAd()
-            else preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, false).apply()
-            initialization()
-        }
+        val handler = Handler()
 
-    }
+        handler.postDelayed({
+            if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0) {
+                finish()
+                startActivity(Intent(this@MainActivity, MainActivity::class.java))
+                preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
+            } else{
+                preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
+                if (!preferences.getBoolean(StaticVars.preferencesLanguageChanged, false))
+                    showAd()
+                preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, false).apply()
+            }
 
-    private fun restart(){
-        val intent = intent
-        finish()
-        overridePendingTransition(0, 0)
-        startActivity(intent)
-    }
+        }, 1000)
 
-    override fun onResume() {
-        super.onResume()
-        //preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
+        initialization()
+
     }
 
     private fun initialization(){
