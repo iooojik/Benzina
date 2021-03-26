@@ -29,16 +29,20 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         preferences = getSharedPreferences(StaticVars.preferencesName, Context.MODE_PRIVATE)
 
         if (preferences.getInt(StaticVars.firstAppStartUP, 0) == 0){
             preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
             restart()
+        }else {
+            setContentView(R.layout.activity_main)
+            if (!preferences.getBoolean(StaticVars.preferencesLanguageChanged, false))
+                showAd()
+            else preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, false).apply()
+            initialization()
         }
-        showAd()
-        initialization()
+
     }
 
     private fun restart(){
@@ -50,7 +54,7 @@ class MainActivity : AppCompatActivity(), PreferencesUtil, FragmentUtil, AdUtil{
 
     override fun onResume() {
         super.onResume()
-        preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
+        //preferences.edit().putInt(StaticVars.firstAppStartUP, 0).apply()
     }
 
     private fun initialization(){

@@ -118,6 +118,7 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
                             setGBLanguage()
                         }
                     }
+                    preferences.edit().putBoolean(StaticVars.preferencesLanguageChanged, true).apply()
                     preferences.edit().putBoolean(StaticVars.preferencesLanguageSelected, true).apply()
                 }
                 .setCancelable(stateSettings)
@@ -127,15 +128,22 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     private fun setGBLanguage(){
         preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "en")
-        preferences.edit().putInt(StaticVars.firstStartUP, 0).apply()
-        requireActivity().recreate()
+        preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
+        restart()
     }
 
     private fun setRussianLanguage(){
         preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
         LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
-        preferences.edit().putInt(StaticVars.firstStartUP, 0).apply()
-        requireActivity().recreate()
+        preferences.edit().putInt(StaticVars.firstAppStartUP, 1).apply()
+        restart()
+    }
+
+    private fun restart(){
+        val intent = requireActivity().intent
+        requireActivity().finish()
+        requireActivity().overridePendingTransition(0, 0)
+        startActivity(intent)
     }
 
     private fun saveCarInfo() {
