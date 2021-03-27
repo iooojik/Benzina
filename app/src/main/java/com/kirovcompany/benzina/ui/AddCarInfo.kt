@@ -137,9 +137,10 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
         LocaleUtils.setSelectedLanguageId("en")
         val i: Intent? = requireActivity().getPackageManager()
             .getLaunchIntentForPackage(requireActivity().getPackageName())
+        preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
+
         requireActivity().finish()
         startActivity(i)
-        //preferences.edit().putString(StaticVars.preferencesLanguage, "en").apply()
         //LocaleHelper.onAttach(requireActivity().applicationContext, "en")
         //restart()
     }
@@ -147,9 +148,10 @@ class AddCarInfo : Fragment(), FragmentUtil, View.OnClickListener {
     private fun setRussianLanguage(){
         LocaleUtils.setSelectedLanguageId("ru")
         val i: Intent? = requireActivity().getPackageManager().getLaunchIntentForPackage(requireActivity().getPackageName())
+        preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
+
         requireActivity().finish()
         startActivity(i)
-        //preferences.edit().putString(StaticVars.preferencesLanguage, "ru").apply()
         //LocaleHelper.onAttach(requireActivity().applicationContext, "ru")
         //restart()
     }

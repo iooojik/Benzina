@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -83,6 +84,13 @@ class RouteProcess : Fragment(), FragmentUtil, View.OnClickListener, ChartsUtil,
             this
         )
         rootView.findViewById<ImageView>(R.id.change_params).setOnClickListener(this)
+
+        rootView.findViewById<TextView>(R.id.params).text = "" +
+                "${PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("app_language_id", "ru")} \n" +
+                "${preferences.getString(StaticVars.preferencesLanguage, "ru")} \n " +
+                "${preferences.getBoolean(StaticVars.preferencesLanguageChanged, false)}  \n" +
+                " ${preferences.getBoolean(StaticVars.preferencesLanguageSelected, false)}  \n"
+
         getStatus()
     }
 
