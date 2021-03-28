@@ -1,4 +1,4 @@
-package iooojik.ru.bensina
+package com.kirovcompany.benzina
 
 import org.junit.Test
 
