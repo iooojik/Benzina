@@ -8,12 +8,18 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     defaultConfig {
         applicationId "com.kirovcompany.benzina"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.5.5"
+        versionCode 12
+        versionName "1.5.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
