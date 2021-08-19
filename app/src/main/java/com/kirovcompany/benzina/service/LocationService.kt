@@ -12,7 +12,7 @@ import com.kirovcompany.benzina.interfaces.ServiceUtil
 import com.kirovcompany.benzina.localdb.AppDatabase
 import java.lang.Exception
 
-@Suppress("DEPRECATION")
+
 class LocationService : Service(), ServiceUtil {
 
     private val handler = Handler()
@@ -65,7 +65,7 @@ class LocationService : Service(), ServiceUtil {
 
     private fun setTimer(){
         //таймер с записью в бд
-        timer.post(object : Runnable {
+        Handler().post(object : Runnable {
             override fun run() {
                 if (running){
                     val timerModel = database.timerDao().get()

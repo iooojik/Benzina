@@ -70,8 +70,8 @@ class HelloFragment : Fragment(), View.OnClickListener, FragmentUtil {
 
     private fun setGBLanguage(){
         LocaleUtils.setSelectedLanguageId("en")
-        val i: Intent? = requireActivity().getPackageManager()
-            .getLaunchIntentForPackage(requireActivity().getPackageName())
+        val i: Intent? = requireActivity().packageManager
+            .getLaunchIntentForPackage(requireActivity().packageName)
         startActivity(i)
     }
 
